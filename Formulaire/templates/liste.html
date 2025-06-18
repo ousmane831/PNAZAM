@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Liste des Enquêtes{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-list-ol me-2"></i>Liste des Enquêtes</h2>
+        <a href="{% url 'enquete:ajouter_enquete' %}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Nouvelle Enquête
+        </a>
+    </div>
+
+    <!-- Filtres et recherche -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label for="commune" class="form-label">Commune</label>
+                    <select id="commune" name="commune" class="form-select">
+                        <option value="">Toutes</option>
+                        {% for commune in communes %}
+                        <option value="{{ commune }}" {% if request.GET.commune == commune %}selected{% endif %}>{{ commune }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="activite" class="form-label">Activité</label>
+                    <select id="activite" name="activite" class="form-select">
+                        <option value="">Toutes</option>
+                        {% for activite in activites %}
+                        <option value="{{ activite.0 }}" {% if request.GET.activite == activite.0 %}selected{% endif %}>{{ activite.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="search" class="form-label">Recherche</label>
+                    <input type="text" id="search" name="search" class="form-control" placeholder="Nom, téléphone..." value="{{ request.GET.search }}">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-filter me-1"></i>Filtrer
+                    </button>
+                    <a href="{% url 'enquete:liste_enquetes' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-undo me-1"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tableau des résultats -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Chef d'atelier</th>
+                            <th>Téléphone</th>
+                            <th>Commune</th>
+                            <th>Activité</th>
+                            <th>Revenu</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for enquete in enquetes %}
+                        <tr>
+                            <td>{{ enquete.id }}</td>
+                            <td>{{ enquete.nom_chef_atelier }} {{ enquete.prenom_chef_atelier }}</td>
+                            <td>{{ enquete.telephone_chef }}</td>
+                            <td>{{ enquete.commune }}</td>
+                            <td>{{ enquete.get_activite_principale_display }}</td>
+                            <td>{{ enquete.get_revenu_mensuel_display }}</td>
+                            <td>{{ enquete.created_at|date:"d/m/Y" }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{% url 'enquete:detail_enquete' enquete.pk %}" class="btn btn-outline-primary" title="Voir">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'enquete:modifier_enquete' enquete.pk %}" class="btn btn-outline-secondary" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'enquete:supprimer_enquete' enquete.pk %}" class="btn btn-outline-danger" title="Supprimer">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">Aucune enquête trouvée</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav aria-label="Pagination" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if request.GET.commune %}&commune={{ request.GET.commune }}{% endif %}{% if request.GET.activite %}&activite={{ request.GET.activite }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.commune %}&commune={{ request.GET.commune }}{% endif %}{% if request.GET.activite %}&activite={{ request.GET.activite }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if request.GET.commune %}&commune={{ request.GET.commune }}{% endif %}{% if request.GET.activite %}&activite={{ request.GET.activite }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.commune %}&commune={{ request.GET.commune }}{% endif %}{% if request.GET.activite %}&activite={{ request.GET.activite }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.commune %}&commune={{ request.GET.commune }}{% endif %}{% if request.GET.activite %}&activite={{ request.GET.activite }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

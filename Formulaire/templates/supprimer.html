@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Supprimer Enquête #{{ enquete.id }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5><i class="fas fa-exclamation-triangle me-2"></i>Confirmation de suppression</h5>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Êtes-vous sûr de vouloir supprimer cette enquête ?</h4>
+                    <p class="card-text">
+                        Vous êtes sur le point de supprimer définitivement l'enquête de 
+                        <strong>{{ enquete.nom_chef_atelier }} {{ enquete.prenom_chef_atelier }}</strong>
+                        situé à <strong>{{ enquete.commune }}, {{ enquete.quartier }}</strong>.
+                    </p>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        Cette action est irréversible. Toutes les données associées seront perdues.
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'enquete:detail_enquete' enquete.pk %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i> Annuler
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt me-2"></i> Confirmer la suppression
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">{{ titre }} Enquête Artisan</h2>
+    
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        <!-- Section 1-2: Informations de base et localisation -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-info-circle me-2"></i>1. Informations de l'enquête & 2. Localisation</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">{{ form.date_enquete|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.enqueteur|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.latitude|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.longitude|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.altitude|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.precision|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.departement|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.commune|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.quartier|as_crispy_field }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6-9: Personnes concernées -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-users me-2"></i>6-9. Personnes concernées</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <h6 class="border-bottom pb-2">Enquêteur</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">{{ form.prenom_enqueteur|as_crispy_field }}</div>
+                            <div class="col-md-6">{{ form.nom_enqueteur|as_crispy_field }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="border-bottom pb-2">Propriétaire</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">{{ form.prenom_proprietaire|as_crispy_field }}</div>
+                            <div class="col-md-6">{{ form.nom_proprietaire|as_crispy_field }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="border-bottom pb-2">Chef d'atelier</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">{{ form.prenom_chef_atelier|as_crispy_field }}</div>
+                            <div class="col-md-6">{{ form.nom_chef_atelier|as_crispy_field }}</div>
+                        </div>
+                        {{ form.telephone_chef|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 10-13: Démographie -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-user-tag me-2"></i>10-13. Informations démographiques</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">{{ form.sexe|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.date_naissance|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.cni|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.niveau_etude|as_crispy_field }}</div>
+                    <div class="col-md-12" id="autre_niveau_etude_row" {% if form.niveau_etude.value != 'autre' %}style="display:none;"{% endif %}>
+                        {{ form.autre_niveau_etude|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 14-18: Activité professionnelle -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-briefcase me-2"></i>14-18. Activité professionnelle</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-12">{{ form.profession|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.type_activite|as_crispy_field }}</div>
+                    <div class="col-md-6" id="autre_activite_row" {% if form.type_activite.value != 'autre' %}style="display:none;"{% endif %}>
+                        {{ form.autre_activite|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">{{ form.revenu_journalier|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.revenu_mensuel|as_crispy_field }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 19-28: Statut d'occupation -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-home me-2"></i>19-28. Statut d'occupation</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">{{ form.statut_occupation|as_crispy_field }}</div>
+                    <div class="col-md-6" id="statut_non_proprietaire_section" {% if form.statut_occupation.value != 'exploitant_non_proprietaire' %}style="display:none;"{% endif %}>
+                        {{ form.statut_non_proprietaire|as_crispy_field }}
+                        <div id="autre_statut_non_proprietaire_row" {% if form.statut_non_proprietaire.value != 'autre' %}style="display:none;"{% endif %}>
+                            {{ form.autre_statut_non_proprietaire|as_crispy_field }}
+                        </div>
+                        <div id="loyer_mensuel_row" {% if form.statut_non_proprietaire.value != 'locataire' %}style="display:none;"{% endif %}>
+                            {{ form.loyer_mensuel|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">{{ form.annee_installation|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.acquisition_site|as_crispy_field }}</div>
+                    <div class="col-md-12" id="autre_acquisition_row" {% if form.acquisition_site.value != 'autre' %}style="display:none;"{% endif %}>
+                        {{ form.autre_acquisition|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">{{ form.deja_deguerpi|as_crispy_field }}</div>
+                    <div class="col-md-6" id="lieu_provenance_row" {% if not form.deja_deguerpi.value %}style="display:none;"{% endif %}>
+                        {{ form.lieu_provenance|as_crispy_field }}
+                    </div>
+                    <div class="col-md-12">{{ form.meilleur_site|as_crispy_field }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 29-36: Situation juridique -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-gavel me-2"></i>29-36. Situation juridique</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">{{ form.menaces_expulsion|as_crispy_field }}</div>
+                    <div class="col-md-6" id="auteur_menaces_row" {% if not form.menaces_expulsion.value %}style="display:none;"{% endif %}>
+                        {{ form.auteur_menaces|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">{{ form.nature_juridique|as_crispy_field }}</div>
+                    <div class="col-md-6" id="autre_nature_juridique_row" {% if form.nature_juridique.value != 'autre' %}style="display:none;"{% endif %}>
+                        {{ form.autre_nature_juridique|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">{{ form.superficie_atelier|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.statut_activite|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.activite_principale|as_crispy_field }}</div>
+                    <div class="col-md-6" id="autre_activite_principale_row" {% if form.activite_principale.value != 'autre' %}style="display:none;"{% endif %}>
+                        {{ form.autre_activite_principale|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 37-50: Ressources humaines et équipements -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-users-cog me-2"></i>37-50. Ressources humaines et équipements</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">{{ form.nombre_total_personnes|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.nombre_proprietaires|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.nombre_ouvriers|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.nombre_apprentis|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.nombre_stagiaires|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.formation_professionnelle|as_crispy_field }}</div>
+                    <div class="col-md-12" id="ecole_formation_row" {% if not form.formation_professionnelle.value %}style="display:none;"{% endif %}>
+                        {{ form.ecole_formation|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">{{ form.formation_ouvriers|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.nombre_personnes_formees|as_crispy_field }}</div>
+                    <div class="col-md-12">{{ form.duree_apprentissage|as_crispy_field }}</div>
+                    
+                    <div class="col-md-12">
+                        <h6 class="border-bottom pb-2">48. Équipements disponibles</h6>
+                        <div class="row">
+                            <div class="col-md-4">{{ form.electricite|as_crispy_field }}</div>
+                            <div class="col-md-4">{{ form.eau_courante|as_crispy_field }}</div>
+                            <div class="col-md-4">{{ form.espace_stockage|as_crispy_field }}</div>
+                            <div class="col-md-4">{{ form.materiel_levage|as_crispy_field }}</div>
+                            <div class="col-md-4">{{ form.banc_diagnostic|as_crispy_field }}</div>
+                            <div class="col-md-4">{{ form.outillage_specialise|as_crispy_field }}</div>
+                            <div class="col-md-12" id="type_outillage_row" {% if not form.outillage_specialise.value %}style="display:none;"{% endif %}>
+                                {{ form.type_outillage|as_crispy_field }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">{{ form.acces_internet|as_crispy_field }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 51-60: Besoins et impacts -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-clipboard-list me-2"></i>51-60. Besoins et impacts</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <h6 class="border-bottom pb-2">51. Besoins en formation technique</h6>
+                    <div class="col-md-4">{{ form.besoin_diagnostic|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.besoin_vehicules_hybrides|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.besoin_gestion_atelier|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.besoin_relation_client|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.besoin_froid_climatisation|as_crispy_field }}</div>
+                    <div class="col-md-12" id="autres_besoins_formation_row">
+                        {{ form.autres_besoins_formation|as_crispy_field }}
+                    </div>
+                    
+                    <div class="col-md-6">{{ form.dispose_formaliser|as_crispy_field }}</div>
+                    <div class="col-md-6" id="type_accompagnement_row" {% if not form.dispose_formaliser.value %}style="display:none;"{% endif %}>
+                        {{ form.type_accompagnement|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">{{ form.affilie_opa|as_crispy_field }}</div>
+                    <div class="col-md-6" id="nom_opa_row" {% if not form.affilie_opa.value %}style="display:none;"{% endif %}>
+                        {{ form.nom_opa|as_crispy_field }}
+                    </div>
+                    <div class="col-md-12">{{ form.horaires_occupation|as_crispy_field }}</div>
+                    <div class="col-md-12">{{ form.impact_environnement|as_crispy_field }}</div>
+                    <div class="col-md-12" id="avantages_positifs_row" {% if form.impact_environnement.value != 'positifs' %}style="display:none;"{% endif %}>
+                        {{ form.avantages_positifs|as_crispy_field }}
+                    </div>
+                    <div class="col-md-12" id="inconvenients_negatifs_row" {% if form.impact_environnement.value != 'negatifs' %}style="display:none;"{% endif %}>
+                        {{ form.inconvenients_negatifs|as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 61-72: Gestion des déchets et relations -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-trash-alt me-2"></i>61-72. Gestion des déchets et relations</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">{{ form.genere_dechets|as_crispy_field }}</div>
+                    <div class="col-md-6" id="gestion_dechets_row" {% if not form.genere_dechets.value %}style="display:none;"{% endif %}>
+                        {{ form.gestion_dechets|as_crispy_field }}
+                        <div id="autre_gestion_dechets_row" {% if form.gestion_dechets.value != 'autre' %}style="display:none;"{% endif %}>
+                            {{ form.autre_gestion_dechets|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">{{ form.relations_occupants|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.problemes_autorites|as_crispy_field }}</div>
+                    <div class="col-md-12" id="autorite_probleme_row" {% if not form.problemes_autorites.value %}style="display:none;"{% endif %}>
+                        {{ form.autorite_probleme|as_crispy_field }}
+                        <div id="autre_autorite_row" {% if form.autorite_probleme.value != 'autre' %}style="display:none;"{% endif %}>
+                            {{ form.autre_autorite|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="col-md-12">{{ form.avantages_commune|as_crispy_field }}</div>
+                    <div class="col-md-12">{{ form.inconvenients_commune|as_crispy_field }}</div>
+                    <div class="col-md-12">{{ form.opinion_reglementation|as_crispy_field }}</div>
+                    <div class="col-md-12">{{ form.suggestions|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.pret_demenager|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.pret_exercer_hors_dakar|as_crispy_field }}</div>
+                    <div class="col-md-12" id="raison_refus_dakar_row" {% if form.pret_exercer_hors_dakar.value %}style="display:none;"{% endif %}>
+                        {{ form.raison_refus_dakar|as_crispy_field }}
+                    </div>
+                    <div class="col-md-12">{{ form.equipements_souhaites|as_crispy_field }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 76-82: Accessibilité et commentaires -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-map-marked-alt me-2"></i>76-82. Accessibilité et commentaires</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">{{ form.difficultes_acces|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.lieu_origine|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.temps_acces|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ form.lieu_residence_clientele|as_crispy_field }}</div>
+                    <div class="col-md-12">{{ form.commentaires_supplementaires|as_crispy_field }}</div>
+                    <div class="col-md-12">{{ form.commentaire_enqueteur|as_crispy_field }}</div>
+                    <div class="col-md-12">{{ form.photo_atelier|as_crispy_field }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4 mb-5">
+            <a href="{% url 'enquete:liste_enquetes' %}" class="btn btn-lg btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Annuler
+            </a>
+            <button type="submit" class="btn btn-lg btn-primary">
+                <i class="fas fa-save me-2"></i> Enregistrer
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+    // Gestion dynamique des champs conditionnels
+    function toggleField(triggerId, targetSelector, triggerValue, displayStyle = 'block') {
+        const trigger = $(triggerId);
+        const target = $(targetSelector);
+        
+        function update() {
+            if (trigger.is(':checkbox, :radio')) {
+                target.toggle(trigger.is(':checked') && (triggerValue === undefined || trigger.val() === triggerValue));
+            } else {
+                target.toggle(trigger.val() === triggerValue);
+            }
+        }
+        
+        trigger.change(update);
+        update(); // Initialisation
+    }
+
+    // Configuration des champs conditionnels
+    toggleField('#id_niveau_etude', '#autre_niveau_etude_row', 'autre');
+    toggleField('#id_type_activite', '#autre_activite_row', 'autre');
+    toggleField('#id_activite_principale', '#autre_activite_principale_row', 'autre');
+    toggleField('#id_statut_occupation', '#statut_non_proprietaire_section', 'exploitant_non_proprietaire');
+    toggleField('#id_statut_non_proprietaire', '#autre_statut_non_proprietaire_row', 'autre');
+    toggleField('#id_statut_non_proprietaire', '#loyer_mensuel_row', 'locataire');
+    toggleField('#id_acquisition_site', '#autre_acquisition_row', 'autre');
+    toggleField('#id_deja_deguerpi', '#lieu_provenance_row');
+    toggleField('#id_menaces_expulsion', '#auteur_menaces_row');
+    toggleField('#id_nature_juridique', '#autre_nature_juridique_row', 'autre');
+    toggleField('#id_formation_professionnelle', '#ecole_formation_row');
+    toggleField('#id_outillage_specialise', '#type_outillage_row');
+    toggleField('#id_dispose_formaliser', '#type_accompagnement_row');
+    toggleField('#id_affilie_opa', '#nom_opa_row');
+    toggleField('#id_impact_environnement', '#avantages_positifs_row', 'positifs');
+    toggleField('#id_impact_environnement', '#inconvenients_negatifs_row', 'negatifs');
+    toggleField('#id_genere_dechets', '#gestion_dechets_row');
+    toggleField('#id_gestion_dechets', '#autre_gestion_dechets_row', 'autre');
+    toggleField('#id_problemes_autorites', '#autorite_probleme_row');
+    toggleField('#id_autorite_probleme', '#autre_autorite_row', 'autre');
+    toggleField('#id_pret_exercer_hors_dakar', '#raison_refus_dakar_row', false);
+
+    // Validation du formulaire
+    (function() {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+});
+</script>
+{% endblock %}
