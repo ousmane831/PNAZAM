@@ -8,8 +8,13 @@ app_name = 'enquete'
 
 urlpatterns = [
     # URLs pour la gestion des enquêtes
+<<<<<<< HEAD
     path('', views.Accueil, name='accueil'),
     path('listes/', views.liste_enquetes, name='liste_enquetes'),
+=======
+    path('', views.index, name='index'),  # Accueil public
+    path('list/', views.liste_enquetes, name='liste_enquetes'),
+>>>>>>> 059e3c1f190545bacd663e20db1715a4404df92d
     path('ajouter/', views.ajouter_enquete, name='ajouter_enquete'),
     path('<int:pk>/', views.detail_enquete, name='detail_enquete'),
     path('<int:pk>/modifier/', views.modifier_enquete, name='modifier_enquete'),
@@ -23,8 +28,8 @@ urlpatterns = [
    
     
     # URLs pour les exports et rapports
-    path('export/csv/', views.export_enquetes_csv, name='export_csv'),
     path('export/excel/', views.export_enquetes_excel, name='export_excel'),
+    path('enquete/<int:pk>/export/excel/', views.exporter_enquete_excel, name='exporter_enquete_excel'),
   
     
    
