@@ -8,13 +8,8 @@ app_name = 'enquete'
 
 urlpatterns = [
     # URLs pour la gestion des enquêtes
-<<<<<<< HEAD
     path('', views.Accueil, name='accueil'),
     path('listes/', views.liste_enquetes, name='liste_enquetes'),
-=======
-    path('', views.index, name='index'),  # Accueil public
-    path('list/', views.liste_enquetes, name='liste_enquetes'),
->>>>>>> 059e3c1f190545bacd663e20db1715a4404df92d
     path('ajouter/', views.ajouter_enquete, name='ajouter_enquete'),
     path('<int:pk>/', views.detail_enquete, name='detail_enquete'),
     path('<int:pk>/modifier/', views.modifier_enquete, name='modifier_enquete'),
@@ -23,7 +18,12 @@ urlpatterns = [
     
      # Authentification
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+   path(
+    'logout/',
+    auth_views.LogoutView.as_view(next_page='enquete:login'),
+    name='logout'
+),
+
     
    
     

@@ -3,14 +3,28 @@
 {% block title %}Liste des Enquêtes{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="fas fa-list-ol me-2"></i>Liste des Enquêtes</h2>
-    
-        <a href="{% url 'enquete:export_excel' %}?{{ request.GET.urlencode }}" class="btn btn-success">
-    <i class="fas fa-file-excel me-2"></i>Exporter en Excel
-    <span class="badge bg-white text-success ms-2">{{ enquetes.paginator.count }}</span>
-</a>
+<div class="px-4 py-5 sm:px-6 border-b border-gray-200 flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
+    <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Liste des garages enregistrés
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+            Tous les garages ayant soumis le formulaire
+        </p>
+    </div>
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
+        <a href="{% url 'enquete:export_excel' %}"
+           class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300 text-center">
+            Exporter en Excel
+        </a>
+        <form method="post" action="{% url 'enquete:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300 w-full sm:w-auto">
+                Se déconnecter <i class="fas fa-sign-out-alt ml-1"></i>
+            </button>
+        </form>
+    </div>
+</div>
 
 
     </div>

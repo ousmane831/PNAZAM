@@ -129,7 +129,7 @@ class LoginView(View):
         return render(request, self.template_name, {'form': form})
 
 @login_required
-def logout_view(request):
+def LogoutView(request):
     logout(request)
     messages.success(request, "Vous avez été déconnecté avec succès.")
     return redirect('login')
