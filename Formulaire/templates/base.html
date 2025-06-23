@@ -29,7 +29,7 @@
         }
         .nav-item.active {
             font-weight: bold;
-            border-bottom: 2px solid #0d6efd;
+            border-bottom: 2px solid #059669;
         }
         @media (max-width: 768px) {
             body {
@@ -41,10 +41,10 @@
 </head>
 <body>
     <!-- Barre de navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top shadow">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'enquete:liste_enquetes' %}">
-                <i class="fas fa-tools me-2"></i>PNZA
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-tools me-2"></i>Accueil
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -58,7 +58,7 @@
                     </li>
                     <li class="nav-item {% if request.resolver_match.url_name == 'ajouter_enquete' %}active{% endif %}">
                         <a class="nav-link" href="{% url 'enquete:ajouter_enquete' %}">
-                            <i class="fas fa-plus-circle me-1"></i> Nouvelle
+                            <i class="fas fa-plus-circle me-1"></i> Nouvelle Enquête
                         </a>
                     </li>
                     

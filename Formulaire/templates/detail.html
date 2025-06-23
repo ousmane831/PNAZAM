@@ -5,77 +5,180 @@
 {% block content %}
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>
-            <i class="fas fa-file-alt me-2"></i>Enquête #{{ enquete.id }}
-            <span class="badge bg-{% if enquete.statut_activite == 'formelle' %}success{% else %}warning{% endif %}">
-                {{ enquete.get_statut_activite_display }}
-            </span>
-        </h2>
-        <div class="btn-group">
-            <a href="{% url 'enquete:modifier_enquete' enquete.pk %}" class="btn btn-outline-primary">
-                <i class="fas fa-edit me-2"></i>Modifier
-            </a>
-            <a href="{% url 'enquete:supprimer_enquete' enquete.pk %}" class="btn btn-outline-danger">
-                <i class="fas fa-trash-alt me-2"></i>Supprimer
-            </a>
-        </div>
-    </div>
+    <h2>
+        <i class="fas fa-file-alt me-2"></i>Enquête #{{ enquete.id }}
+        <span class="badge bg-{% if enquete.statut_activite == 'formelle' %}success{% else %}warning{% endif %}">
+            {{ enquete.get_statut_activite_display }}
+        </span>
+    </h2>
+    <div class="btn-group">
+    <a href="{% url 'enquete:modifier_enquete' enquete.pk %}" class="btn btn-outline-primary">
+        <i class="fas fa-edit me-2"></i>Modifier
+    </a>
+    <a href="{% url 'enquete:exporter_enquete_excel' enquete.pk %}" class="btn btn-outline-success">
+        <i class="fas fa-file-excel me-2"></i>Excel
+    </a>
+    <a href="{% url 'enquete:supprimer_enquete' enquete.pk %}" class="btn btn-outline-danger">
+        <i class="fas fa-trash-alt me-2"></i>Supprimer
+    </a>
+</div>
+</div>
 
     <div class="row">
         <!-- Colonne principale -->
         <div class="col-md-8">
+            <!-- Informations Générales -->
             <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-success text-white">
                     <h5><i class="fas fa-info-circle me-2"></i>Informations Générales</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>Date de l'enquête:</strong> {{ enquete.date_enquete|date:"d/m/Y" }}</p>
-                            <p><strong>Enquêteur:</strong> {{ enquete.nom_enqueteur }} {{ enquete.prenom_enqueteur }}</p>
+                            <p><strong>Enquêteur:</strong> {{ enquete.enqueteur }}</p>
+                            <p><strong>Localisation:</strong> {{ enquete.departement }}, {{ enquete.commune }}, {{ enquete.quartier }}</p>
+                            <p><strong>Coordonnées:</strong> {{ enquete.latitude }}, {{ enquete.longitude }} (alt: {{ enquete.altitude }}m, précision: {{ enquete.precision }})</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Localisation:</strong> {{ enquete.commune }}, {{ enquete.quartier }}</p>
-                            <p><strong>Coordonnées:</strong> {{ enquete.latitude }}, {{ enquete.longitude }}</p>
+                            <p><strong>Propriétaire:</strong> {{ enquete.nom_proprietaire }} {{ enquete.prenom_proprietaire }}</p>
+                            <p><strong>Chef d'atelier:</strong> {{ enquete.nom_chef_atelier }} {{ enquete.prenom_chef_atelier }}</p>
+                            <p><strong>Téléphone chef:</strong> {{ enquete.telephone_chef }}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Démographie -->
             <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5><i class="fas fa-user-tie me-2"></i>Chef d'Atelier</h5>
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-user-tie me-2"></i>Informations Démographiques</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>Nom complet:</strong> {{ enquete.nom_chef_atelier }} {{ enquete.prenom_chef_atelier }}</p>
-                            <p><strong>Téléphone:</strong> {{ enquete.telephone_chef }}</p>
+                            <p><strong>Sexe:</strong> {{ enquete.get_sexe_display }}</p>
                             <p><strong>Date de naissance:</strong> {{ enquete.date_naissance|date:"d/m/Y" }}</p>
+                            <p><strong>CNI:</strong> {{ enquete.cni|default:"Non renseigné" }}</p>
                         </div>
                         <div class="col-md-6">
                             <p><strong>Niveau d'étude:</strong> {{ enquete.get_niveau_etude_display }}</p>
-                            <p><strong>CNI:</strong> {{ enquete.cni|default:"Non renseigné" }}</p>
+                            {% if enquete.niveau_etude == 'autre' %}
+                            <p><strong>Autre niveau:</strong> {{ enquete.autre_niveau_etude }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Activité Professionnelle -->
             <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-success text-white">
                     <h5><i class="fas fa-briefcase me-2"></i>Activité Professionnelle</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
+                            <p><strong>Profession:</strong> {{ enquete.profession }}</p>
                             <p><strong>Activité principale:</strong> {{ enquete.get_activite_principale_display }}</p>
+                            {% if enquete.activite_principale == 'autre' %}
+                            <p><strong>Autre activité:</strong> {{ enquete.autre_activite_principale }}</p>
+                            {% endif %}
                             <p><strong>Type d'activité:</strong> {{ enquete.get_type_activite_display }}</p>
-                            <p><strong>Revenu mensuel:</strong> {{ enquete.get_revenu_mensuel_display }}</p>
+                            {% if enquete.type_activite == 'autre' %}
+                            <p><strong>Autre type:</strong> {{ enquete.autre_activite }}</p>
+                            {% endif %}
                         </div>
                         <div class="col-md-6">
+                            <p><strong>Revenu journalier:</strong> {{ enquete.get_revenu_journalier_display }}</p>
+                            <p><strong>Revenu mensuel:</strong> {{ enquete.get_revenu_mensuel_display }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statut d'Occupation -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-home me-2"></i>Statut d'Occupation</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
                             <p><strong>Statut occupation:</strong> {{ enquete.get_statut_occupation_display }}</p>
-                            <p><strong>Superficie atelier:</strong> {{ enquete.superficie_atelier }} m²</p>
+                            {% if enquete.statut_occupation == 'exploitant_non_proprietaire' %}
+                            <p><strong>Statut non propriétaire:</strong> {{ enquete.get_statut_non_proprietaire_display }}</p>
+                            {% if enquete.statut_non_proprietaire == 'autre' %}
+                            <p><strong>Autre statut:</strong> {{ enquete.autre_statut_non_proprietaire }}</p>
+                            {% endif %}
+                            {% if enquete.statut_non_proprietaire == 'locataire' %}
+                            <p><strong>Loyer mensuel:</strong> {{ enquete.loyer_mensuel }}</p>
+                            {% endif %}
+                            {% endif %}
                             <p><strong>Installé depuis:</strong> {{ enquete.annee_installation }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Acquisition du site:</strong> {{ enquete.get_acquisition_site_display }}</p>
+                            {% if enquete.acquisition_site == 'autre' %}
+                            <p><strong>Autre mode:</strong> {{ enquete.autre_acquisition }}</p>
+                            {% endif %}
+                            <p><strong>Déjà déguerpi:</strong> {% if enquete.deja_deguerpi %}Oui{% else %}Non{% endif %}</p>
+                            {% if enquete.deja_deguerpi %}
+                            <p><strong>Lieu de provenance:</strong> {{ enquete.lieu_provenance }}</p>
+                            {% endif %}
+                            <p><strong>Meilleur site:</strong> {{ enquete.meilleur_site }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Situation Juridique -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-gavel me-2"></i>Situation Juridique</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Menaces d'expulsion:</strong> {% if enquete.menaces_expulsion %}Oui{% else %}Non{% endif %}</p>
+                            {% if enquete.menaces_expulsion %}
+                            <p><strong>Auteur des menaces:</strong> {{ enquete.auteur_menaces }}</p>
+                            {% endif %}
+                            <p><strong>Nature juridique:</strong> {{ enquete.get_nature_juridique_display }}</p>
+                            {% if enquete.nature_juridique == 'autre' %}
+                            <p><strong>Autre nature:</strong> {{ enquete.autre_nature_juridique }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Superficie atelier:</strong> {{ enquete.superficie_atelier }} m²</p>
+                            <p><strong>Statut activité:</strong> {{ enquete.get_statut_activite_display }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ressources Humaines -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-users-cog me-2"></i>Ressources Humaines</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Total personnes:</strong> {{ enquete.nombre_total_personnes }}</p>
+                            <p><strong>Propriétaires:</strong> {{ enquete.nombre_proprietaires }}</p>
+                            <p><strong>Ouvriers:</strong> {{ enquete.nombre_ouvriers }}</p>
+                            <p><strong>Apprentis:</strong> {{ enquete.nombre_apprentis }}</p>
+                            <p><strong>Stagiaires:</strong> {{ enquete.nombre_stagiaires }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Formation professionnelle:</strong> {% if enquete.formation_professionnelle %}Oui{% else %}Non{% endif %}</p>
+                            {% if enquete.formation_professionnelle %}
+                            <p><strong>École de formation:</strong> {{ enquete.ecole_formation }}</p>
+                            {% endif %}
+                            <p><strong>Formation des ouvriers:</strong> {% if enquete.formation_ouvriers %}Oui{% else %}Non{% endif %}</p>
+                            <p><strong>Nombre personnes formées:</strong> {{ enquete.nombre_personnes_formees }}</p>
+                            <p><strong>Durée apprentissage:</strong> {{ enquete.duree_apprentissage }}</p>
                         </div>
                     </div>
                 </div>
@@ -84,21 +187,9 @@
 
         <!-- Colonne secondaire -->
         <div class="col-md-4">
+            <!-- Équipements -->
             <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5><i class="fas fa-users me-2"></i>Personnel</h5>
-                </div>
-                <div class="card-body">
-                    <p><strong>Total personnes:</strong> {{ enquete.nombre_total_personnes }}</p>
-                    <p><strong>Propriétaires:</strong> {{ enquete.nombre_proprietaires }}</p>
-                    <p><strong>Ouvriers:</strong> {{ enquete.nombre_ouvriers }}</p>
-                    <p><strong>Apprentis:</strong> {{ enquete.nombre_apprentis }}</p>
-                    <p><strong>Stagiaires:</strong> {{ enquete.nombre_stagiaires }}</p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-success text-white">
                     <h5><i class="fas fa-cogs me-2"></i>Équipements</h5>
                 </div>
                 <div class="card-body">
@@ -113,12 +204,103 @@
                     {% if enquete.outillage_specialise %}
                     <p class="mt-2"><strong>Type d'outillage:</strong> {{ enquete.type_outillage }}</p>
                     {% endif %}
+                    <p class="mt-2"><strong>Accès internet:</strong> {% if enquete.acces_internet %}Oui{% else %}Non{% endif %}</p>
+                </div>
+            </div>
+
+            <!-- Besoins -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-clipboard-list me-2"></i>Besoins</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Besoins en formation:</strong></p>
+                    <ul>
+                        <li>Diagnostic: {% if enquete.besoin_diagnostic %}Oui{% else %}Non{% endif %}</li>
+                        <li>Véhicules hybrides: {% if enquete.besoin_vehicules_hybrides %}Oui{% else %}Non{% endif %}</li>
+                        <li>Gestion atelier: {% if enquete.besoin_gestion_atelier %}Oui{% else %}Non{% endif %}</li>
+                        <li>Relation client: {% if enquete.besoin_relation_client %}Oui{% else %}Non{% endif %}</li>
+                        <li>Froid/climatisation: {% if enquete.besoin_froid_climatisation %}Oui{% else %}Non{% endif %}</li>
+                    </ul>
+                    {% if enquete.autres_besoins_formation %}
+                    <p><strong>Autres besoins:</strong> {{ enquete.autres_besoins_formation }}</p>
+                    {% endif %}
+                    <p><strong>Disposé à formaliser:</strong> {% if enquete.dispose_formaliser %}Oui{% else %}Non{% endif %}</p>
+                    {% if enquete.dispose_formaliser %}
+                    <p><strong>Type accompagnement:</strong> {{ enquete.type_accompagnement }}</p>
+                    {% endif %}
+                    <p><strong>Affilié à une OPA:</strong> {% if enquete.affilie_opa %}Oui{% else %}Non{% endif %}</p>
+                    {% if enquete.affilie_opa %}
+                    <p><strong>Nom OPA:</strong> {{ enquete.nom_opa }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Gestion des déchets -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-trash-alt me-2"></i>Gestion des Déchets</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Génère des déchets:</strong> {% if enquete.genere_dechets %}Oui{% else %}Non{% endif %}</p>
+                    {% if enquete.genere_dechets %}
+                    <p><strong>Gestion des déchets:</strong> {{ enquete.get_gestion_dechets_display }}</p>
+                    {% if enquete.gestion_dechets == 'autre' %}
+                    <p><strong>Autre méthode:</strong> {{ enquete.autre_gestion_dechets }}</p>
+                    {% endif %}
+                    {% endif %}
+                    <p><strong>Impact environnemental:</strong> {{ enquete.get_impact_environnement_display }}</p>
+                    {% if enquete.impact_environnement == 'positifs' %}
+                    <p><strong>Avantages:</strong> {{ enquete.avantages_positifs }}</p>
+                    {% elif enquete.impact_environnement == 'negatifs' %}
+                    <p><strong>Inconvénients:</strong> {{ enquete.inconvenients_negatifs }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Relations et mobilité -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-people-arrows me-2"></i>Relations et Mobilité</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Relations avec occupants:</strong> {{ enquete.relations_occupants }}</p>
+                    <p><strong>Problèmes avec autorités:</strong> {% if enquete.problemes_autorites %}Oui{% else %}Non{% endif %}</p>
+                    {% if enquete.problemes_autorites %}
+                    <p><strong>Autorité concernée:</strong> {{ enquete.get_autorite_probleme_display }}</p>
+                    {% if enquete.autorite_probleme == 'autre' %}
+                    <p><strong>Autre autorité:</strong> {{ enquete.autre_autorite }}</p>
+                    {% endif %}
+                    {% endif %}
+                    <p><strong>Avantages pour la commune:</strong> {{ enquete.avantages_commune }}</p>
+                    <p><strong>Inconvénients pour la commune:</strong> {{ enquete.inconvenients_commune }}</p>
+                    <p><strong>Opinion sur réglementation:</strong> {{ enquete.opinion_reglementation }}</p>
+                    <p><strong>Prêt à déménager:</strong> {% if enquete.pret_demenager %}Oui{% else %}Non{% endif %}</p>
+                    <p><strong>Prêt à exercer hors Dakar:</strong> {% if enquete.pret_exercer_hors_dakar %}Oui{% else %}Non{% endif %}</p>
+                    {% if not enquete.pret_exercer_hors_dakar %}
+                    <p><strong>Raison refus:</strong> {{ enquete.raison_refus_dakar }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Accessibilité -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-map-marked-alt me-2"></i>Accessibilité</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Difficultés d'accès:</strong> {{ enquete.difficultes_acces }}</p>
+                    <p><strong>Lieu d'origine:</strong> {{ enquete.lieu_origine }}</p>
+                    <p><strong>Temps d'accès:</strong> {{ enquete.temps_acces }}</p>
+                    <p><strong>Lieu résidence clientèle:</strong> {{ enquete.lieu_residence_clientele }}</p>
+                    <p><strong>Horaires occupation:</strong> {{ enquete.horaires_occupation }}</p>
+                    <p><strong>Équipements souhaités:</strong> {{ enquete.equipements_souhaites }}</p>
                 </div>
             </div>
 
             {% if enquete.photo_atelier %}
             <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-success text-white">
                     <h5><i class="fas fa-camera me-2"></i>Photo de l'atelier</h5>
                 </div>
                 <div class="card-body text-center">
@@ -129,10 +311,10 @@
         </div>
     </div>
 
-    <!-- Section commentaires -->
+    <!-- Section commentaires et suggestions -->
     <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h5><i class="fas fa-comment me-2"></i>Commentaires</h5>
+        <div class="card-header bg-success text-white">
+            <h5><i class="fas fa-comment me-2"></i>Commentaires et Suggestions</h5>
         </div>
         <div class="card-body">
             {% if enquete.commentaire_enqueteur %}
@@ -142,9 +324,15 @@
             </div>
             {% endif %}
             {% if enquete.commentaires_supplementaires %}
-            <div>
+            <div class="mb-3">
                 <h6>Commentaires supplémentaires:</h6>
                 <p class="ps-3">{{ enquete.commentaires_supplementaires }}</p>
+            </div>
+            {% endif %}
+            {% if enquete.suggestions %}
+            <div>
+                <h6>Suggestions:</h6>
+                <p class="ps-3">{{ enquete.suggestions }}</p>
             </div>
             {% endif %}
         </div>

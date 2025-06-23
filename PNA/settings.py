@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     
     "Formulaire",
-
     'crispy_forms',
     'crispy_bootstrap4',
+    
 
 
 ]
@@ -134,5 +134,10 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_URL = 'login'                # Redirection vers la page de connexion si non connecté
+LOGIN_REDIRECT_URL = 'liste_enquetes'      # Redirection après une connexion réussie
+LOGOUT_REDIRECT_URL = 'login'     # Redirection après déconnexion
+
 
 

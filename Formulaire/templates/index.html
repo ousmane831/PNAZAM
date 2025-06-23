@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Accueil - PNZA{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #059669;
+        --primary-light: rgba(13, 110, 253, 0.1);
+        --transition-speed: 0.3s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .animate-delay-1 { animation-delay: 0.2s; }
+    .animate-delay-2 { animation-delay: 0.4s; }
+    .animate-delay-3 { animation-delay: 0.6s; }
+    .animate-delay-4 { animation-delay: 0.8s; }
+
+    .hover-pulse:hover {
+        animation: pulse 1s ease infinite;
+    }
+
+    .feature-icon {
+        transition: all var(--transition-speed) ease;
+    }
+
+    .feature-card {
+        transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: rotate(5deg) scale(1.1);
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .banner {
+        background-image: url("{% static 'img/banner.png' %}");
+        background-size: cover;
+        background-position: center;
+        padding: 6rem 0;
+        margin-top: -56px;
+    }
+
+    .banner-content {
+        background-color: #059669;
+        backdrop-filter: blur(5px);
+        padding: 3rem;
+        border-radius: 0.5rem;
+    }
+
+    h1, h2 {
+        font-size: clamp(1.5rem, 3vw, 2.75rem);
+    }
+
+    .btn-light {
+        transition: background-color var(--transition-speed), transform var(--transition-speed);
+    }
+
+    .btn-light:hover {
+        background-color: #ffffffcc;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Bannière -->
+<section class="banner text-white">
+    <div class="banner-content text-center">
+
+            <h1 class="display-4 fw-bold mb-4">
+                Plateforme Nationale des Zones Artisanales
+                <span class="d-block text-light mt-2">PNZA</span>
+            </h1>
+            <p class="lead mb-4">
+                Système de gestion des enquêtes auprès des artisans mécaniciens
+            </p>
+            <p class="mb-4 fst-italic">
+                Une solution complète pour collecter, analyser et gérer les données des artisans mécaniciens.
+            </p>
+            {% if not user.is_authenticated %}
+            <a href="{% url 'enquete:login' %}" class="btn btn-light btn-lg px-4">
+                <i class="fas fa-sign-in-alt me-2"></i> Se connecter
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Fonctionnalités -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Fonctionnalités principales</h2>
+        
+        <div class="row g-4">
+            <!-- Carte 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 feature-card border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-opacity-10 w-20 h-20 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                            <i class="fas fa-clipboard-list text-primary fa-3x"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Enquêtes complètes</h3>
+                        <p class="text-muted">Collectez des données détaillées sur les artisans mécaniciens</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte 2 -->
+            <div class="col-md-4">
+                <div class="card h-100 feature-card border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-opacity-10 w-20 h-20 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                            <i class="fas fa-chart-bar text-primary fa-3x"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Analyses avancées</h3>
+                        <p class="text-muted">Visualisez et analysez les données collectées</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 feature-card border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary bg-opacity-10 w-20 h-20 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4">
+                            <i class="fas fa-user-shield text-primary fa-3x"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Gestion des accès</h3>
+                        <p class="text-muted">Contrôlez qui peut accéder aux données sensibles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Avantages -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="{% static 'img/survey.png' %}" alt="Illustration enquête" class="img-fluid rounded animate-fade-in">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="mb-4">Pourquoi choisir PNZA ?</h2>
+                
+                <div class="d-flex mb-3 animate-fade-in animate-delay-1">
+                    <div class="flex-shrink-0 bg-primary bg-opacity-10 p-2 rounded-circle me-4">
+                        <i class="fas fa-database text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="h5">Centralisation des données</h3>
+                        <p class="text-muted mb-0">Toutes vos enquêtes regroupées en un seul endroit sécurisé</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex mb-3 animate-fade-in animate-delay-2">
+                    <div class="flex-shrink-0 bg-primary bg-opacity-10 p-2 rounded-circle me-4">
+                        <i class="fas fa-clock text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="h5">Gain de temps</h3>
+                        <p class="text-muted mb-0">Automatisation des processus de collecte et d'analyse</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex mb-3 animate-fade-in animate-delay-3">
+                    <div class="flex-shrink-0 bg-primary bg-opacity-10 p-2 rounded-circle me-4">
+                        <i class="fas fa-file-export text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="h5">Export des résultats</h3>
+                        <p class="text-muted mb-0">Générez des rapports détaillés en quelques clics</p>
+                    </div>
+                </div>
+                
+                <div class="d-flex animate-fade-in animate-delay-4">
+                    <div class="flex-shrink-0 bg-primary bg-opacity-10 p-2 rounded-circle me-4">
+                        <i class="fas fa-mobile-alt text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="h5">Accessibilité</h3>
+                        <p class="text-muted mb-0">Plateforme responsive accessible sur tous les appareils</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-success text-white">
+    <div class="container text-center">
+        <h2 class="mb-4">Prêt à gérer vos enquêtes efficacement ?</h2>
+        <p class="lead mb-4">Accédez dès maintenant à la plateforme PNZA</p>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'enquete:login' %}" class="btn btn-light btn-lg hover-pulse">
+            <i class="fas fa-sign-in-alt me-2"></i> Se connecter
+        </a>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    // Animation au scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const animateElements = document.querySelectorAll('.animate-fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        animateElements.forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            observer.observe(el);
+        });
+    });
+</script>
+{% endblock %}
