@@ -10,6 +10,9 @@ from .forms import EnqueteForm
 # from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 # from .serializers import EnqueteSerializer
 
+def Accueil(request):
+    return render(request, 'index.html')
+
 # Vue pour la liste des enquêtes
 def liste_enquetes(request):
     enquetes = Enquete.objects.all().order_by('-created_at')

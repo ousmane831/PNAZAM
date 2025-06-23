@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNTAS - Plateforme des Chefs de Garage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .animate-delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        .hover-pulse:hover {
+            animation: pulse 1s ease infinite;
+        }
+        
+        .skew-section {
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: rotate(5deg) scale(1.1);
+            background-color: #059669;
+            color: white;
+        }
+        
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+        .background{
+          background-image: url("{% static 'img/hero.jpg' %}");
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        }
+        .banner{
+          background-image: url("{% static 'img/banner.png' %}");
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        }
+        .reseau{
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <!-- Banniere -->
+    <!-- Banniere -->
+<section class="relative banner py-16 w-screen">
+    <div class="absolute inset-0 bg-emerald-900/40 backdrop-blur-sm z-0 w-full h-full"></div>
+  
+    <div class="relative w-full px-6 text-center z-10 mx-auto">
+      <h1 class="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-white drop-shadow-lg mb-6">
+        Confédération Nationale des Techniciens de l'Automobile du Sénégal
+        <span class="block text-emerald-300 mt-2">CNTAS</span>
+      </h1>
+  
+      <p class="text-lg md:text-xl text-gray-200 font-medium mb-6 tracking-wide">
+        La plateforme officielle des Chefs de Garage au Sénégal
+      </p>
+  
+      <p class="text-base md:text-lg italic text-gray-100 mb-10 max-w-3xl mx-auto">
+        Une initiative soutenue par des professionnels pour accompagner chaque chef de garage dans sa réussite.
+      </p>
+  
+      <a href="{% url 'enquete:ajouter_enquete' %}" class="bg-white text-emerald-600 font-semibold text-lg py-3 px-8 rounded-full shadow-md hover:bg-gray-100 hover:scale-105 transform transition duration-300 inline-block">
+        Commencer maintenant <i class="fas fa-arrow-right ml-2"></i>
+      </a>
+    </div>
+  </section>
+
+    <!-- Témoignages -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Ils nous font confiance</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Témoignage 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-emerald-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-emerald-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Ignasse N.</h4>
+                            <p class="text-sm text-gray-500">Garage Auto 34</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Grâce à CNTAS, j'ai pu augmenter mon chiffre d'affaires de 30% en 6 mois. Les formations sont exceptionnelles."</p>
+                    <div class="mt-4 text-emerald-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Témoignage 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-emerald-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-emerald-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Ibrahima N.</h4>
+                            <p class="text-sm text-gray-500">Mécanique Pro</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Le réseau m'a permis de trouver des fournisseurs fiables et de mieux gérer mon stock. Un gain de temps considérable."</p>
+                    <div class="mt-4 text-emerald-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                
+                <!-- Témoignage 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-emerald-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-emerald-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Modou T.</h4>
+                            <p class="text-sm text-gray-500">Pneu Service</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"L'accompagnement personnalisé m'a aidé à digitaliser mon activité. Maintenant, je gère tout en ligne simplement."</p>
+                    <div class="mt-4 text-emerald-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Avantages -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center max-w-6xl mx-auto">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <img src="{% static 'img/cntas.png' %}" alt="Illustration garage" class="w-full max-w-md mx-auto animate-fade-in">
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Nos avantages exclusifs</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start animate-fade-in animate-delay-1">
+                            <div class="bg-emerald-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-eye text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800">Visibilité accrue</h3>
+                                <p class="text-gray-600">Augmentez votre clientèle grâce à notre Réseau</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start animate-fade-in animate-delay-2">
+                            <div class="bg-emerald-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-graduation-cap text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800">Formations professionnelles</h3>
+                                <p class="text-gray-600">Accédez à des modules de formation exclusifs</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start animate-fade-in animate-delay-3">
+                            <div class="bg-emerald-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-users text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800">Réseau professionnel</h3>
+                                <p class="text-gray-600">Échangez avec d'autres chefs de garage expérimentés</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start animate-fade-in animate-delay-4">
+                            <div class="bg-emerald-100 p-2 rounded-full mr-4">
+                                <i class="fas fa-briefcase text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-800">Opportunités</h3>
+                                <p class="text-gray-600">Bénéficiez de partenariats avantageux</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Réseaux sociaux -->
+    <section class="py-16 bg-white reseau">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Rejoignez notre communauté</h2>
+            <p class="text-gray-600 mb-10 max-w-2xl mx-auto">Suivez-nous pour des conseils exclusifs et les dernières actualités</p>
+            
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="social-icon bg-white w-14 h-14 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition duration-300 hover:bg-blue-100">
+                    <i class="fab fa-facebook-f text-blue-600 text-2xl"></i>
+                </a>
+                <a href="#" class="social-icon bg-white w-14 h-14 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition duration-300 hover:bg-blue-400">
+                    <i class="fab fa-twitter text-blue-400 text-2xl"></i>
+                </a>
+                <a href="#" class="social-icon bg-white w-14 h-14 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition duration-300 hover:bg-pink-100">
+                    <i class="fab fa-instagram text-pink-600 text-2xl"></i>
+                </a>
+                <a href="#" class="social-icon bg-white w-14 h-14 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition duration-300 hover:bg-red-100">
+                    <i class="fab fa-youtube text-red-600 text-2xl"></i>
+                </a>
+                <a href="#" class="social-icon bg-white w-14 h-14 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition duration-300 hover:bg-blue-600">
+                    <i class="fab fa-linkedin-in text-blue-700 text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+   <!-- Call to Action -->
+    <section class="relative py-16 bg-emerald-700 text-white background w-screen">
+        {% comment %} <div class="absolute inset-0 bg-emerald-900/40 backdrop-blur-sm z-0 w-full h-full"></div> {% endcomment %}
+    
+        <div class="relative w-full px-6 text-center z-10 mx-auto">
+        <h2 class="text-3xl font-bold mb-6">Prêt à transformer votre garage ?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">Rejoignez dès aujourd'hui notre réseau de professionnels</p>
+        <a href="{% url 'enquete:ajouter_enquete' %}" class="bg-white text-emerald-700 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition duration-300 inline-block hover-pulse">
+            S'inscrire maintenant
+            <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+        </div>
+    </section>
+
+    <script>
+        // Animation au scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

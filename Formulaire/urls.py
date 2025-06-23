@@ -8,7 +8,8 @@ app_name = 'enquete'
 
 urlpatterns = [
     # URLs pour la gestion des enquêtes
-    path('', views.liste_enquetes, name='liste_enquetes'),
+    path('', views.Accueil, name='accueil'),
+    path('listes/', views.liste_enquetes, name='liste_enquetes'),
     path('ajouter/', views.ajouter_enquete, name='ajouter_enquete'),
     path('<int:pk>/', views.detail_enquete, name='detail_enquete'),
     path('<int:pk>/modifier/', views.modifier_enquete, name='modifier_enquete'),

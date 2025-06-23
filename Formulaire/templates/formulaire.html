@@ -2,7 +2,13 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container mt-4">
+
+<style>
+    .boutt{
+        background-color: #059669;
+    }
+</style>
+<div class="max-w-3xl mx-auto p-4 md:p-6">
     <h2 class="mb-4 text-center">{{ titre }} Enquête Artisan</h2>
     
     <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
@@ -10,10 +16,10 @@
         
         <!-- Section 1-2: Informations de base et localisation -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-info-circle me-2"></i>1. Informations de l'enquête & 2. Localisation</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
                 <div class="row g-3">
                     <div class="col-md-6">{{ form.date_enquete|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.enqueteur|as_crispy_field }}</div>
@@ -30,10 +36,10 @@
 
         <!-- Section 6-9: Personnes concernées -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-users me-2"></i>6-9. Personnes concernées</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <h6 class="border-bottom pb-2">Enquêteur</h6>
@@ -63,10 +69,10 @@
 
         <!-- Section 10-13: Démographie -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-user-tag me-2"></i>10-13. Informations démographiques</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
                 <div class="row g-3">
                     <div class="col-md-3">{{ form.sexe|as_crispy_field }}</div>
                     <div class="col-md-3">{{ form.date_naissance|as_crispy_field }}</div>
@@ -81,10 +87,10 @@
 
         <!-- Section 14-18: Activité professionnelle -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-briefcase me-2"></i>14-18. Activité professionnelle</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
                 <div class="row g-3">
                     <div class="col-md-12">{{ form.profession|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.type_activite|as_crispy_field }}</div>
@@ -99,10 +105,10 @@
 
         <!-- Section 19-28: Statut d'occupation -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-home me-2"></i>19-28. Statut d'occupation</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
                 <div class="row g-3">
                     <div class="col-md-6">{{ form.statut_occupation|as_crispy_field }}</div>
                     <div class="col-md-6" id="statut_non_proprietaire_section" {% if form.statut_occupation.value != 'exploitant_non_proprietaire' %}style="display:none;"{% endif %}>
@@ -119,9 +125,36 @@
                     <div class="col-md-12" id="autre_acquisition_row" {% if form.acquisition_site.value != 'autre' %}style="display:none;"{% endif %}>
                         {{ form.autre_acquisition|as_crispy_field }}
                     </div>
-                    <div class="col-md-6">{{ form.deja_deguerpi|as_crispy_field }}</div>
-                    <div class="col-md-6" id="lieu_provenance_row" {% if not form.deja_deguerpi.value %}style="display:none;"{% endif %}>
-                        {{ form.lieu_provenance|as_crispy_field }}
+                    <!-- Deja deguerpis -->
+                    <div class="section-card bg-gray-50 p-4 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Avez-vous une fois été déguerpi ? </label>
+                        <div class="flex space-x-4">
+                            <div class="flex items-center">
+                                <input type="radio" name="deja_deguerpi" id="deguerpi_oui" 
+                                       value="True" class="radio-custom"
+                                       {% if form.deja_deguerpi.value %}checked{% endif %}>
+                                <label for="deguerpi_oui" class="text-gray-700 cursor-pointer">Oui</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="deja_deguerpi" id="deguerpi_non" 
+                                       value="False" class="radio-custom"
+                                       {% if form.deja_deguerpi.value == False %}checked{% endif %}>
+                                <label for="deguerpi_non" class="text-gray-700 cursor-pointer">Non</label>
+                            </div>
+                        </div>
+                        <div id="lieu_provenance_container" class="mt-3 {% if not form.deja_deguerpi.value %}hidden{% endif %}">
+                            <label for="{{ form.lieu_provenance.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                Si Oui quel est votre lieu de provenance ?
+                            </label>
+                            {{ form.lieu_provenance }}
+                            {% if form.lieu_provenance.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.lieu_provenance.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="col-md-12">{{ form.meilleur_site|as_crispy_field }}</div>
                 </div>
@@ -130,15 +163,43 @@
 
         <!-- Section 29-36: Situation juridique -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-gavel me-2"></i>29-36. Situation juridique</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
+                <!-- Menaces d'expulsion -->
                 <div class="row g-3">
-                    <div class="col-md-6">{{ form.menaces_expulsion|as_crispy_field }}</div>
-                    <div class="col-md-6" id="auteur_menaces_row" {% if not form.menaces_expulsion.value %}style="display:none;"{% endif %}>
-                        {{ form.auteur_menaces|as_crispy_field }}
+                    <div class="section-card bg-gray-50 p-4 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 mb-2"> Avez vous une fois reçu des menaces d'expulsion sur le site que vous occupez actuellement ? </label>
+                        <div class="flex space-x-4">
+                            <div class="flex items-center">
+                                <input type="radio" name="menaces_expulsion" id="menaces_oui" 
+                                       value="True" class="radio-custom"
+                                       {% if form.menaces_expulsion.value %}checked{% endif %}>
+                                <label for="menaces_oui" class="text-gray-700 cursor-pointer">Oui</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="menaces_expulsion" id="menaces_non" 
+                                       value="False" class="radio-custom"
+                                       {% if form.menaces_expulsion.value == False %}checked{% endif %}>
+                                <label for="menaces_non" class="text-gray-700 cursor-pointer">Non</label>
+                            </div>
+                        </div>
+                        <div id="auteur_menaces_container" class="mt-3 {% if not form.menaces_expulsion.value %}hidden{% endif %}">
+                            <label for="{{ form.auteur_menaces.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                Si oui de qui ?
+                            </label>
+                            {{ form.auteur_menaces }}
+                            {% if form.auteur_menaces.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.auteur_menaces.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
+
                     <div class="col-md-6">{{ form.nature_juridique|as_crispy_field }}</div>
                     <div class="col-md-6" id="autre_nature_juridique_row" {% if form.nature_juridique.value != 'autre' %}style="display:none;"{% endif %}>
                         {{ form.autre_nature_juridique|as_crispy_field }}
@@ -155,27 +216,55 @@
 
         <!-- Section 37-50: Ressources humaines et équipements -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-users-cog me-2"></i>37-50. Ressources humaines et équipements</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
                 <div class="row g-3">
                     <div class="col-md-6">{{ form.nombre_total_personnes|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.nombre_proprietaires|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.nombre_ouvriers|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.nombre_apprentis|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.nombre_stagiaires|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.formation_professionnelle|as_crispy_field }}</div>
-                    <div class="col-md-12" id="ecole_formation_row" {% if not form.formation_professionnelle.value %}style="display:none;"{% endif %}>
-                        {{ form.ecole_formation|as_crispy_field }}
-                    </div>
+                    <!-- formation professionnelle -->
+                    <div class="row g-3">
+                        <div class="section-card bg-gray-50 p-4 rounded-lg">
+                            <label class="block text-sm font-medium text-gray-700 mb-2"> Avez-vous suivi une formation professionnelle ? </label>
+                            <div class="flex space-x-4">
+                                <div class="flex items-center">
+                                    <input type="radio" name="formation_professionnelle" id="formation_oui" 
+                                           value="True" class="radio-custom"
+                                           {% if form.formation_professionnelle.value %}checked{% endif %}>
+                                    <label for="formation_oui" class="text-gray-700 cursor-pointer">Oui</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="radio" name="formation_professionnelle" id="formation_non" 
+                                           value="False" class="radio-custom"
+                                           {% if form.formation_professionnelle.value == False %}checked{% endif %}>
+                                    <label for="formation_non" class="text-gray-700 cursor-pointer">Non</label>
+                                </div>
+                            </div>
+                            <div id="ecole_formation_container" class="mt-3 {% if not form.formation_professionnelle.value %}hidden{% endif %}">
+                                <label for="{{ form.ecole_formation.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Si Oui, de quelle école/établissement ?
+                                </label>
+                                {{ form.ecole_formation }}
+                                {% if form.ecole_formation.errors %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {% for error in form.ecole_formation.errors %}
+                                    <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     <div class="col-md-6">{{ form.formation_ouvriers|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.nombre_personnes_formees|as_crispy_field }}</div>
                     <div class="col-md-12">{{ form.duree_apprentissage|as_crispy_field }}</div>
                     
                     <div class="col-md-12">
                         <h6 class="border-bottom pb-2">48. Équipements disponibles</h6>
-                        <div class="row">
+                        <div class="section-card bg-gray-50 p-4 rounded-lg">
                             <div class="col-md-4">{{ form.electricite|as_crispy_field }}</div>
                             <div class="col-md-4">{{ form.eau_courante|as_crispy_field }}</div>
                             <div class="col-md-4">{{ form.espace_stockage|as_crispy_field }}</div>
@@ -187,17 +276,41 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">{{ form.acces_internet|as_crispy_field }}</div>
+                    <!-- Accès internet -->
+                <div class="section-card bg-gray-50 p-4 rounded-lg">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Avez-vous un accès à l’Internet ou à un smartphone connecté ?</label>
+                    <div class="flex space-x-4">
+                        <div class="flex items-center">
+                            <input type="radio" name="acces_internet" id="internet_oui" 
+                                   value="True" class="radio-custom"
+                                   {% if form.acces_internet.value %}checked{% endif %}>
+                            <label for="internet_oui" class="text-gray-700 cursor-pointer">Oui</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="acces_internet" id="internet_non" 
+                                   value="False" class="radio-custom"
+                                   {% if form.acces_internet.value == False %}checked{% endif %}>
+                            <label for="internet_non" class="text-gray-700 cursor-pointer">Non</label>
+                        </div>
+                    </div>
+                    {% if form.acces_internet.errors %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {% for error in form.acces_internet.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
                 </div>
             </div>
         </div>
 
         <!-- Section 51-60: Besoins et impacts -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-clipboard-list me-2"></i>51-60. Besoins et impacts</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
                 <div class="row g-3">
                     <h6 class="border-bottom pb-2">51. Besoins en formation technique</h6>
                     <div class="col-md-4">{{ form.besoin_diagnostic|as_crispy_field }}</div>
@@ -209,21 +322,117 @@
                         {{ form.autres_besoins_formation|as_crispy_field }}
                     </div>
                     
-                    <div class="col-md-6">{{ form.dispose_formaliser|as_crispy_field }}</div>
-                    <div class="col-md-6" id="type_accompagnement_row" {% if not form.dispose_formaliser.value %}style="display:none;"{% endif %}>
-                        {{ form.type_accompagnement|as_crispy_field }}
+                <!-- Formalisation -->
+                <div class="section-card bg-gray-50 p-4 rounded-lg">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Êtes-vous disposé à formaliser votre activité si un appui est proposé ?</label>
+                    <div class="flex space-x-4">
+                        <div class="flex items-center">
+                            <input type="radio" name="dispose_formaliser" id="formalisation_oui" 
+                                   value="True" class="radio-custom"
+                                   {% if form.dispose_formaliser.value %}checked{% endif %}>
+                            <label for="formalisation_oui" class="text-gray-700 cursor-pointer">Oui</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="dispose_formaliser" id="formalisation_non" 
+                                   value="False" class="radio-custom"
+                                   {% if form.dispose_formaliser.value == False %}checked{% endif %}>
+                            <label for="formalisation_non" class="text-gray-700 cursor-pointer">Non</label>
+                        </div>
                     </div>
-                    <div class="col-md-6">{{ form.affilie_opa|as_crispy_field }}</div>
-                    <div class="col-md-6" id="nom_opa_row" {% if not form.affilie_opa.value %}style="display:none;"{% endif %}>
-                        {{ form.nom_opa|as_crispy_field }}
+                    <div id="accompagnement_container" class="mt-3 {% if not form.dispose_formaliser.value %}hidden{% endif %}">
+                        <label for="{{ form.type_accompagnement.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Quel type d’accompagnement auriez-vous besoin ?
+                        </label>
+                        {{ form.type_accompagnement }}
+                        {% if form.type_accompagnement.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.type_accompagnement.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
+                </div>
+                     <!-- Affiliation OPA -->
+                <div class="section-card bg-gray-50 p-4 rounded-lg">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Êtes-vous affilié à une Organisation Professionnelle Artisanale (OPA) ? </label>
+                    <div class="flex space-x-4">
+                        <div class="flex items-center">
+                            <input type="radio" name="affilie_opa" id="opa_oui" 
+                                   value="True" class="radio-custom"
+                                   {% if form.affilie_opa.value %}checked{% endif %}>
+                            <label for="opa_oui" class="text-gray-700 cursor-pointer">Oui</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="affilie_opa" id="opa_non" 
+                                   value="False" class="radio-custom"
+                                   {% if form.affilie_opa.value == False %}checked{% endif %}>
+                            <label for="opa_non" class="text-gray-700 cursor-pointer">Non</label>
+                        </div>
+                    </div>
+                    <div id="nom_opa_container" class="mt-3 {% if not form.affilie_opa.value %}hidden{% endif %}">
+                        <label for="{{ form.nom_opa.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                            Laquelle ?
+                        </label>
+                        {{ form.nom_opa }}
+                        {% if form.nom_opa.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.nom_opa.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
                     <div class="col-md-12">{{ form.horaires_occupation|as_crispy_field }}</div>
-                    <div class="col-md-12">{{ form.impact_environnement|as_crispy_field }}</div>
-                    <div class="col-md-12" id="avantages_positifs_row" {% if form.impact_environnement.value != 'positifs' %}style="display:none;"{% endif %}>
-                        {{ form.avantages_positifs|as_crispy_field }}
-                    </div>
-                    <div class="col-md-12" id="inconvenients_negatifs_row" {% if form.impact_environnement.value != 'negatifs' %}style="display:none;"{% endif %}>
-                        {{ form.inconvenients_negatifs|as_crispy_field }}
+                    <!-- impact positif et negatif -->
+                    <div class="section-card bg-gray-50 p-4 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Quels sont les impacts de votre activité sur l'environnement immédiat?
+                        </label>
+
+                        <div class="flex space-x-4">
+                            <div class="flex items-center">
+                                <input type="radio" name="impact_environnement" id="impact_oui" 
+                                    value="positifs" class="radio-custom"
+                                    {% if form.impact_environnement.value == 'positifs'  %}checked{% endif %}>
+                                <label for="impact_oui" class="ml-1 text-gray-700 cursor-pointer">Positifs</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="impact_environnement" id="impact_non" 
+                                    value="negatifs" class="radio-custom"
+                                    {% if form.impact_environnement.value == 'negatifs' or not form.impact_environnement.value %}checked{% endif %}>
+                                <label for="impact_non" class="ml-1 text-gray-700 cursor-pointer">Negatifs</label>
+                            </div>
+                        </div>
+                        <div id="impact_container" class="mt-3 {% if form.impact_environnement.value != 'positifs' %}hidden{% endif %}">
+                            <label for="{{ form.avantages_positifs.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                Si Positifs , quels avantages, quels bénéfices?
+                            </label>
+                            {{ form.avantages_positifs }}
+                            {% if form.avantages_positifs.errors %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {% for error in form.avantages_positifs.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                
+                        <!-- Si negatifs -->
+                        <div id="impact_negatif_container" class="mt-3 {% if form.impact_environnement.value != 'negatifs' %}hidden{% endif %}">
+                            <label for="{{ form.inconvenients_negatifs.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                Si Négatifs,quels inconvénients, quels problèmes?
+                            </label>
+                            {{ form.inconvenients_negatifs }}
+                            {% if form.inconvenients_negatifs.errors %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {% for error in form.inconvenients_negatifs.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -231,32 +440,210 @@
 
         <!-- Section 61-72: Gestion des déchets et relations -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-secondary text-white">
                 <h5><i class="fas fa-trash-alt me-2"></i>61-72. Gestion des déchets et relations</h5>
             </div>
-            <div class="card-body">
+            <div class="section-card bg-gray-50 p-4 rounded-lg">
                 <div class="row g-3">
-                    <div class="col-md-6">{{ form.genere_dechets|as_crispy_field }}</div>
-                    <div class="col-md-6" id="gestion_dechets_row" {% if not form.genere_dechets.value %}style="display:none;"{% endif %}>
-                        {{ form.gestion_dechets|as_crispy_field }}
-                        <div id="autre_gestion_dechets_row" {% if form.gestion_dechets.value != 'autre' %}style="display:none;"{% endif %}>
-                            {{ form.autre_gestion_dechets|as_crispy_field }}
+                    <!-- Section : Gestion des déchets -->
+                    <div class="section-card bg-gray-50 p-4 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Votre activité génère-t-elle des déchets ?
+                        </label>
+                        <div class="flex space-x-4">
+                            <div class="flex items-center">
+                                <input type="radio" name="genere_dechets" id="genere_oui" value="True"
+                                    class="radio-custom"
+                                    {% if form.genere_dechets.value == 'True' %}checked{% endif %}>
+                                <label for="genere_oui" class="text-gray-700 cursor-pointer ml-1">Oui</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="genere_dechets" id="genere_non" value="False"
+                                    class="radio-custom"
+                                    {% if form.genere_dechets.value == 'False' or not form.genere_dechets.value %}checked{% endif %}>
+                                <label for="genere_non" class="text-gray-700 cursor-pointer ml-1">Non</label>
+                            </div>
+                        </div>
+
+                        <!-- Si oui : gestion des déchets -->
+                        <div id="dechet_container" class="mt-3 {% if form.genere_dechets.value != 'True' %}hidden{% endif %}">
+                            <label for="{{ form.gestion_dechets.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                Si oui, comment sont-ils gérés ?
+                            </label>
+                            <div class="text-gray-700">
+                                {{ form.gestion_dechets }}
+                            </div>
+
+                            <!-- Si autre est sélectionné -->
+                            <div id="gestion_container" class="mt-3 {% if form.gestion_dechets.value != 'autre' %}hidden{% endif %}">
+                                <label for="{{ form.autre_gestion_dechets.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Lequel autre ?
+                                </label>
+                                <div class="text-gray-700">
+                                    {{ form.autre_gestion_dechets }}
+                                </div>
+                            </div>
+
+                            <!-- Erreurs -->
+                            {% if form.gestion_dechets.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.gestion_dechets.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="col-md-6">{{ form.relations_occupants|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.problemes_autorites|as_crispy_field }}</div>
-                    <div class="col-md-12" id="autorite_probleme_row" {% if not form.problemes_autorites.value %}style="display:none;"{% endif %}>
-                        {{ form.autorite_probleme|as_crispy_field }}
-                        <div id="autre_autorite_row" {% if form.autorite_probleme.value != 'autre' %}style="display:none;"{% endif %}>
-                            {{ form.autre_autorite|as_crispy_field }}
+
+                    
+                    <!-- relations avec les autres occupants -->
+                    <div class="section-card bg-gray-50 p-4 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Avez-vous des relations avec les autres occupants informels du même espace?</label>
+                        <div class="flex space-x-4">
+                            <div class="flex items-center">
+                                <input type="radio" name="relations_occupants" id="relations_oui" 
+                                       value="True" class="radio-custom"
+                                       {% if form.relations_occupants.value %}checked{% endif %}>
+                                <label for="relations_oui" class="text-gray-700 cursor-pointer">Oui</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="relations_occupants" id="relations_non" 
+                                       value="False" class="radio-custom"
+                                       {% if form.relations_occupants.value == False %}checked{% endif %}>
+                                <label for="relations_non" class="text-gray-700 cursor-pointer">Non</label>
+                            </div>
+                        </div>
+                        {% if form.relations_occupants.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.relations_occupants.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+
+                    <!--  problèmes avec les autorités -->
+                    <div class="section-card bg-gray-50 p-4 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Avez-vous déjà eu des problèmes avec les autorités ou d'autres personnes à cause de cette occupation?
+                        </label>
+                        <div class="flex space-x-4">
+                            <div class="flex items-center">
+                                <input type="radio" name="problemes_autorites" id="probleme_oui" value="True"
+                                    class="radio-custom"
+                                    {% if form.problemes_autorites.value == 'True' %}checked{% endif %}>
+                                <label for="probleme_oui" class="text-gray-700 cursor-pointer ml-1">Oui</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="problemes_autorites" id="probleme_non" value="False"
+                                    class="radio-custom"
+                                    {% if form.problemes_autorites.value == 'False' or not form.problemes_autorites.value %}checked{% endif %}>
+                                <label for="probleme_non" class="text-gray-700 cursor-pointer ml-1">Non</label>
+                            </div>
+                        </div>
+
+                        <!-- Si oui : probleme -->
+                        <div id="probleme_container" class="mt-3 {% if form.problemes_autorites.value != 'True' %}hidden{% endif %}">
+                            <label for="{{ form.autorite_probleme.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                 Si Oui lequel autorité ?
+                            </label>
+                            <div class="text-gray-700">
+                                {{ form.autorite_probleme }}
+                            </div>
+
+                            <!-- Si autre est sélectionné -->
+                            <div id="autorite_container" class="mt-3 {% if form.autorite_probleme.value != 'autre' %}hidden{% endif %}">
+                                <label for="{{ form.autre_autorite.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Lequel autre ?
+                                </label>
+                                <div class="text-gray-700">
+                                    {{ form.autre_autorite }}
+                                </div>
+                            </div>
+
+                            <!-- Erreurs -->
+                            {% if form.autorite_container.errors %}
+                            <div class="mt-1 text-sm text-red-600">
+                                {% for error in form.autorite_container.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
+
+
                     <div class="col-md-12">{{ form.avantages_commune|as_crispy_field }}</div>
                     <div class="col-md-12">{{ form.inconvenients_commune|as_crispy_field }}</div>
                     <div class="col-md-12">{{ form.opinion_reglementation|as_crispy_field }}</div>
                     <div class="col-md-12">{{ form.suggestions|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.pret_demenager|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.pret_exercer_hors_dakar|as_crispy_field }}</div>
+                    
+                        <!-- prêt à déménager -->
+                    <div class="section-card bg-gray-50 p-4 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Seriez-vous prêt à déménager si un espace adapté vous était proposé ?
+                        </label>
+
+                        <div class="flex space-x-4">
+                            <div class="flex items-center">
+                                <input type="radio" name="pret_demenager" id="pret_oui" 
+                                    value="True" class="radio-custom"
+                                    {% if form.pret_demenager.value == 'True' %}checked{% endif %}>
+                                <label for="pret_oui" class="ml-1 text-gray-700 cursor-pointer">Oui</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="pret_demenager" id="pret_non" 
+                                    value="False" class="radio-custom"
+                                    {% if form.pret_demenager.value == 'False' or not form.pret_demenager.value %}checked{% endif %}>
+                                <label for="pret_non" class="ml-1 text-gray-700 cursor-pointer">Non</label>
+                            </div>
+                        </div>
+                        <div id="pret_container" class="mt-3 {% if form.pret_demenager.value != 'True' %}hidden{% endif %}">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Si oui, êtes-vous prêt à exercer votre métier hors de Dakar ?
+                            </label>
+                            <div class="flex space-x-4">
+                                <!-- Oui -->
+                                <div class="flex items-center">
+                                    <input type="radio" name="pret_exercer_hors_dakar" id="hors_oui" value="True" class="radio-custom"
+                                            {% if form.pret_exercer_hors_dakar.value == 'True' %}checked{% endif %}>
+                                    <label for="hors_oui" class="ml-1 text-gray-700 cursor-pointer">Oui</label>
+                                </div>
+                                <!-- Non -->
+                                <div class="flex items-center">
+                                    <input type="radio" name="pret_exercer_hors_dakar" id="hors_non" value="False" class="radio-custom"
+                                            {% if form.pret_exercer_hors_dakar.value == 'False' %}checked{% endif %}>
+                                    <label for="hors_non" class="ml-1 text-gray-700 cursor-pointer">Non</label>
+                                </div>
+                            </div>
+                        
+                            {% if form.pret_exercer_hors_dakar.errors %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {% for error in form.pret_exercer_hors_dakar.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                
+                        <!-- Si NON -->
+                        <div id="pret_non_container" class="mt-3 {% if form.pret_demenager.value != 'False' %}hidden{% endif %}">
+                            <label for="{{ form.raison_refus_dakar.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                Si non, pourquoi ?
+                            </label>
+                            {{ form.raison_refus_dakar }}
+                            {% if form.raison_refus_dakar.errors %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {% for error in form.raison_refus_dakar.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
                     <div class="col-md-12" id="raison_refus_dakar_row" {% if form.pret_exercer_hors_dakar.value %}style="display:none;"{% endif %}>
                         {{ form.raison_refus_dakar|as_crispy_field }}
                     </div>
@@ -265,14 +652,46 @@
             </div>
         </div>
 
-        <!-- Section 76-82: Accessibilité et commentaires -->
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h5><i class="fas fa-map-marked-alt me-2"></i>76-82. Accessibilité et commentaires</h5>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-6">{{ form.difficultes_acces|as_crispy_field }}</div>
+            <!-- Section 76-82: Accessibilité et commentaires -->
+            <div class="card mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5><i class="fas fa-map-marked-alt me-2"></i>76-82. Accessibilité et commentaires</h5>
+                </div>
+                <div class="section-card bg-gray-50 p-4 rounded-lg">
+                    <div class="row g-3">
+                    
+                            <!-- difficultés pour accéder a votre lieu-->
+                            <div class="section-card bg-gray-50 p-4 rounded-lg">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Avez-vous des difficultés pour accéder à votre lieu d'activité ?
+                                </label>
+                                <div class="flex space-x-4">
+                                    <div class="flex items-center">
+                                        <input type="radio" name="difficulte_acces" id="difficulte_oui" 
+                                               value="True" class="radio-custom"
+                                               {% if form.difficulte_acces.value == 'True' %}checked{% endif %}>
+                                        <label for="difficulte_oui" class="text-gray-700 cursor-pointer ml-1">Oui</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="difficulte_acces" id="difficulte_non" 
+                                               value="False" class="radio-custom"
+                                               {% if form.difficulte_acces.value == 'False' or not form.difficulte_acces.value %}checked{% endif %}>
+                                        <label for="difficulte_non" class="text-gray-700 cursor-pointer ml-1">Non</label>
+                                    </div>
+                                </div>
+                                {% if form.difficulte_acces.errors %}
+                                <div class="mt-1 text-sm text-red-600">
+                                    {% for error in form.difficulte_acces.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
                     <div class="col-md-6">{{ form.lieu_origine|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.temps_acces|as_crispy_field }}</div>
                     <div class="col-md-6">{{ form.lieu_residence_clientele|as_crispy_field }}</div>
@@ -283,11 +702,12 @@
             </div>
         </div>
 
+        <!-- boutton enregistrer et annueler -->
         <div class="d-flex justify-content-between mt-4 mb-5">
             <a href="{% url 'enquete:liste_enquetes' %}" class="btn btn-lg btn-secondary">
                 <i class="fas fa-arrow-left me-2"></i> Annuler
             </a>
-            <button type="submit" class="btn btn-lg btn-primary">
+            <button type="submit" class="btn btn-lg btn-primary boutt">
                 <i class="fas fa-save me-2"></i> Enregistrer
             </button>
         </div>
@@ -353,5 +773,74 @@ $(document).ready(function() {
         });
     })();
 });
+
+document.querySelectorAll('input[name="deja_deguerpi"]').forEach(input => {
+        input.addEventListener('change', function() {
+            document.getElementById('lieu_provenance_container').classList.toggle('hidden', this.value !== 'True');
+        });
+    });
+
+document.querySelectorAll('input[name="menaces_expulsion"]').forEach(input => {
+        input.addEventListener('change', function() {
+            document.getElementById('auteur_menaces_container').classList.toggle('hidden', this.value !== 'True');
+        });
+    });
+
+document.querySelectorAll('input[name="formation_professionnelle"]').forEach(input => {
+        input.addEventListener('change', function() {
+            document.getElementById('ecole_formation_container').classList.toggle('hidden', this.value !== 'True');
+        });
+    });
+
+document.querySelectorAll('input[name="dispose_formaliser"]').forEach(input => {
+    input.addEventListener('change', function() {
+        document.getElementById('accompagnement_container').classList.toggle('hidden', this.value !== 'True');
+    });
+});
+
+document.querySelectorAll('input[name="affilie_opa"]').forEach(input => {
+        input.addEventListener('change', function() {
+            document.getElementById('nom_opa_container').classList.toggle('hidden', this.value !== 'True');
+        });
+    });
+
+document.querySelectorAll('input[name="genere_dechets"]').forEach(input => {
+        input.addEventListener('change', function() {
+            document.getElementById('dechet_container').classList.toggle('hidden', this.value !== 'True');
+        });
+    });
+
+document.querySelectorAll('input[name="gestion_dechets"]').forEach(input => {
+    input.addEventListener('change', function() {
+            document.getElementById('gestion_container').classList.toggle('hidden', this.value !== 'autre');
+        });
+    });
+
+document.querySelectorAll('input[name="problemes_autorites"]').forEach(input => {
+        input.addEventListener('change', function() {
+            document.getElementById('probleme_container').classList.toggle('hidden', this.value !== 'True');
+        });
+    });
+
+document.querySelectorAll('input[name="autorite_probleme"]').forEach(input => {
+    input.addEventListener('change', function() {
+            document.getElementById('autorite_container').classList.toggle('hidden', this.value !== 'autre');
+        });
+    });
+
+document.querySelectorAll('input[name="pret_demenager"]').forEach(input => {
+    input.addEventListener('change', function() {
+        document.getElementById('pret_container').classList.toggle('hidden', this.value !== 'True');
+        document.getElementById('pret_non_container').classList.toggle('hidden', this.value !== 'False');
+    });
+});
+
+document.querySelectorAll('input[name="impact_environnement"]').forEach(input => {
+    input.addEventListener('change', function() {
+        document.getElementById('impact_container').classList.toggle('hidden', this.value !== 'positifs');
+        document.getElementById('impact_negatif_container').classList.toggle('hidden', this.value !== 'negatifs');
+    });
+});
+
 </script>
 {% endblock %}
