@@ -7,216 +7,390 @@
     .boutt{
         background-color: #059669;
     }
+    .text{
+        font-size: 18px;
+    }
 </style>
 <div class="max-w-3xl mx-auto p-4 md:p-6">
-    <h2 class="mb-4 text-center">{{ titre }} Enquête Artisan</h2>
+    <!-- Header -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-6 flex items-center">
+        <div class="bg-emerald-100 p-3 rounded-full mr-4">
+            <i class="fas fa-car text-emerald-600 text-2xl"></i>
+        </div>
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800 text">PROGRAMME NATIONAL D'AMENAGEMENT DES ZONES
+                D'ACTIVITES DES MECANICIENS ET AUTRES ARTISANS</h1>
+            <p class="text-gray-600">Veuillez remplir toutes les sections du formulaire</p>
+        </div>
+    </div>
     
     <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         {% csrf_token %}
         
         <!-- Section 1-2: Informations de base et localisation -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-info-circle me-2"></i>1. Informations de l'enquête & 2. Localisation</h5>
             </div>
-            <div class="section-card bg-gray-50 p-4 rounded-lg">
-                <div class="row g-3">
-                    <div class="col-md-6">{{ form.date_enquete|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.enqueteur|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.latitude|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.longitude|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.altitude|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.precision|as_crispy_field }}</div>
-                    <div class="col-md-4">{{ form.departement|as_crispy_field }}</div>
-                    <div class="col-md-4">{{ form.commune|as_crispy_field }}</div>
-                    <div class="col-md-4">{{ form.quartier|as_crispy_field }}</div>
+            <div class="bg-gray-50 p-6 space-y-6">
+                
+                <!-- Date de l'enquête -->
+                <div class="w-full">
+                    <label class="block text-sm font-medium text-gray-700">Date de l'enquête</label>
+                    {{ form.date_enquete }}
                 </div>
+        
+                <!-- Coordonnées GPS -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Latitude</label>
+                        {{ form.latitude }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Longitude</label>
+                        {{ form.longitude }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Altitude</label>
+                        {{ form.altitude }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Précision</label>
+                        {{ form.precision }}
+                    </div>
+                </div>
+        
+                <!-- Localisation -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Département</label>
+                        {{ form.departement }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Commune</label>
+                        {{ form.commune }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Quartier</label>
+                        {{ form.quartier }}
+                    </div>
+                </div>
+        
             </div>
         </div>
+        
+        
 
         <!-- Section 6-9: Personnes concernées -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-users me-2"></i>6-9. Personnes concernées</h5>
             </div>
-            <div class="section-card bg-gray-50 p-4 rounded-lg">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <h6 class="border-bottom pb-2">Enquêteur</h6>
-                        <div class="row g-2">
-                            <div class="col-md-6">{{ form.prenom_enqueteur|as_crispy_field }}</div>
-                            <div class="col-md-6">{{ form.nom_enqueteur|as_crispy_field }}</div>
+            <div class="bg-gray-50 p-6 space-y-6">
+                
+                <!-- Enquêteur -->
+                <div>
+                    <h6 class="font-medium text-gray-700 mb-2 border-b pb-1">Enquêteur</h6>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="w-full md:w-1/2">
+                            <label class="block text-sm font-medium text-gray-600">Prénom enquêteur</label>
+                            {{ form.prenom_enqueteur }}
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="border-bottom pb-2">Propriétaire</h6>
-                        <div class="row g-2">
-                            <div class="col-md-6">{{ form.prenom_proprietaire|as_crispy_field }}</div>
-                            <div class="col-md-6">{{ form.nom_proprietaire|as_crispy_field }}</div>
+                        <div class="w-full md:w-1/2">
+                            <label class="block text-sm font-medium text-gray-600">Nom enquêteur</label>
+                            {{ form.nom_enqueteur }}
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="border-bottom pb-2">Chef d'atelier</h6>
-                        <div class="row g-2">
-                            <div class="col-md-6">{{ form.prenom_chef_atelier|as_crispy_field }}</div>
-                            <div class="col-md-6">{{ form.nom_chef_atelier|as_crispy_field }}</div>
-                        </div>
-                        {{ form.telephone_chef|as_crispy_field }}
                     </div>
                 </div>
+        
+                <!-- Propriétaire -->
+                <div>
+                    <h6 class="font-medium text-gray-700 mb-2 border-b pb-1">Propriétaire</h6>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="w-full md:w-1/2">
+                            <label class="block text-sm font-medium text-gray-600">Prénom propriétaire</label>
+                            {{ form.prenom_proprietaire }}
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <label class="block text-sm font-medium text-gray-600">Nom propriétaire</label>
+                            {{ form.nom_proprietaire }}
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Chef d'atelier -->
+                <div>
+                    <h6 class="font-medium text-gray-700 mb-2 border-b pb-1">Chef d'atelier</h6>
+                    <div class="flex flex-col md:flex-row gap-4 mb-4">
+                        <div class="w-full md:w-1/2">
+                            <label class="block text-sm font-medium text-gray-600">Prénom chef d'atelier</label>
+                            {{ form.prenom_chef_atelier }}
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <label class="block text-sm font-medium text-gray-600">Nom chef d'atelier</label>
+                            {{ form.nom_chef_atelier }}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Téléphone du chef</label>
+                        {{ form.telephone_chef }}
+                    </div>
+                </div>
+        
             </div>
         </div>
+        
 
         <!-- Section 10-13: Démographie -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-user-tag me-2"></i>10-13. Informations démographiques</h5>
             </div>
-            <div class="section-card bg-gray-50 p-4 rounded-lg">
-                <div class="row g-3">
-                    <div class="col-md-3">{{ form.sexe|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.date_naissance|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.cni|as_crispy_field }}</div>
-                    <div class="col-md-3">{{ form.niveau_etude|as_crispy_field }}</div>
-                    <div class="col-md-12" id="autre_niveau_etude_row" {% if form.niveau_etude.value != 'autre' %}style="display:none;"{% endif %}>
-                        {{ form.autre_niveau_etude|as_crispy_field }}
+            <div class="bg-gray-50 p-6 space-y-6">
+                
+                <!-- Informations de base -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Sexe</label>
+                        {{ form.sexe }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Date de naissance</label>
+                        {{ form.date_naissance }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Numéro CNI</label>
+                        {{ form.cni }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Niveau d'étude</label>
+                        {{ form.niveau_etude }}
                     </div>
                 </div>
+        
+                <!-- Affichage conditionnel autre niveau d'étude -->
+                <div id="autre_niveau_etude_row" class="mt-4" {% if form.niveau_etude.value != 'autre' %}style="display: none;"{% endif %}>
+                    <label class="block text-sm font-medium text-gray-700">Autre niveau d'étude</label>
+                    {{ form.autre_niveau_etude }}
+                </div>
+        
             </div>
         </div>
+        
 
         <!-- Section 14-18: Activité professionnelle -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-briefcase me-2"></i>14-18. Activité professionnelle</h5>
             </div>
-            <div class="section-card bg-gray-50 p-4 rounded-lg">
-                <div class="row g-3">
-                    <div class="col-md-12">{{ form.profession|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.type_activite|as_crispy_field }}</div>
-                    <div class="col-md-6" id="autre_activite_row" {% if form.type_activite.value != 'autre' %}style="display:none;"{% endif %}>
-                        {{ form.autre_activite|as_crispy_field }}
-                    </div>
-                    <div class="col-md-6">{{ form.revenu_journalier|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.revenu_mensuel|as_crispy_field }}</div>
+            <div class="bg-gray-50 p-6 space-y-6">
+        
+                <!-- Profession -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Profession</label>
+                    {{ form.profession }}
                 </div>
+        
+                <!-- Type d'activité + Autre -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="w-full md:w-1/2">
+                        <label class="block text-sm font-medium text-gray-700">Type d'activité</label>
+                        {{ form.type_activite }}
+                    </div>
+                    <div class="w-full md:w-1/2" id="autre_activite_row" {% if form.type_activite.value != 'autre' %}style="display: none;"{% endif %}>
+                        <label class="block text-sm font-medium text-gray-700">Autre activité</label>
+                        {{ form.autre_activite }}
+                    </div>
+                </div>
+        
+                <!-- Revenus -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="w-full md:w-1/2">
+                        <label class="block text-sm font-medium text-gray-700">Revenu journalier</label>
+                        {{ form.revenu_journalier }}
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <label class="block text-sm font-medium text-gray-700">Revenu mensuel</label>
+                        {{ form.revenu_mensuel }}
+                    </div>
+                </div>
+        
             </div>
         </div>
+        
 
         <!-- Section 19-28: Statut d'occupation -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-home me-2"></i>19-28. Statut d'occupation</h5>
             </div>
-            <div class="section-card bg-gray-50 p-4 rounded-lg">
-                <div class="row g-3">
-                    <div class="col-md-6">{{ form.statut_occupation|as_crispy_field }}</div>
-                    <div class="col-md-6" id="statut_non_proprietaire_section" {% if form.statut_occupation.value != 'exploitant_non_proprietaire' %}style="display:none;"{% endif %}>
-                        {{ form.statut_non_proprietaire|as_crispy_field }}
-                        <div id="autre_statut_non_proprietaire_row" {% if form.statut_non_proprietaire.value != 'autre' %}style="display:none;"{% endif %}>
-                            {{ form.autre_statut_non_proprietaire|as_crispy_field }}
+            <div class="bg-gray-50 p-6 space-y-6">
+        
+                <!-- Statut d'occupation -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Statut d'occupation</label>
+                        {{ form.statut_occupation }}
+                    </div>
+                    <div id="statut_non_proprietaire_section" {% if form.statut_occupation.value != 'exploitant_non_proprietaire' %}style="display:none;"{% endif %}>
+                        <label class="block text-sm font-medium text-gray-700">Statut non propriétaire</label>
+                        {{ form.statut_non_proprietaire }}
+        
+                        <div id="autre_statut_non_proprietaire_row" class="mt-3" {% if form.statut_non_proprietaire.value != 'autre' %}style="display:none;"{% endif %}>
+                            <label class="block text-sm font-medium text-gray-700">Autre statut</label>
+                            {{ form.autre_statut_non_proprietaire }}
                         </div>
-                        <div id="loyer_mensuel_row" {% if form.statut_non_proprietaire.value != 'locataire' %}style="display:none;"{% endif %}>
-                            {{ form.loyer_mensuel|as_crispy_field }}
+        
+                        <div id="loyer_mensuel_row" class="mt-3" {% if form.statut_non_proprietaire.value != 'locataire' %}style="display:none;"{% endif %}>
+                            <label class="block text-sm font-medium text-gray-700">Loyer mensuel</label>
+                            {{ form.loyer_mensuel }}
                         </div>
                     </div>
-                    <div class="col-md-6">{{ form.annee_installation|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.acquisition_site|as_crispy_field }}</div>
-                    <div class="col-md-12" id="autre_acquisition_row" {% if form.acquisition_site.value != 'autre' %}style="display:none;"{% endif %}>
-                        {{ form.autre_acquisition|as_crispy_field }}
-                    </div>
-                    <!-- Deja deguerpis -->
-                    <div class="section-card bg-gray-50 p-4 rounded-lg">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Avez-vous une fois été déguerpi ? </label>
-                        <div class="flex space-x-4">
-                            <div class="flex items-center">
-                                <input type="radio" name="deja_deguerpi" id="deguerpi_oui" 
-                                       value="True" class="radio-custom"
-                                       {% if form.deja_deguerpi.value %}checked{% endif %}>
-                                <label for="deguerpi_oui" class="text-gray-700 cursor-pointer">Oui</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" name="deja_deguerpi" id="deguerpi_non" 
-                                       value="False" class="radio-custom"
-                                       {% if form.deja_deguerpi.value == False %}checked{% endif %}>
-                                <label for="deguerpi_non" class="text-gray-700 cursor-pointer">Non</label>
-                            </div>
-                        </div>
-                        <div id="lieu_provenance_container" class="mt-3 {% if not form.deja_deguerpi.value %}hidden{% endif %}">
-                            <label for="{{ form.lieu_provenance.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
-                                Si Oui quel est votre lieu de provenance ?
-                            </label>
-                            {{ form.lieu_provenance }}
-                            {% if form.lieu_provenance.errors %}
-                            <div class="mt-1 text-sm text-red-600">
-                                {% for error in form.lieu_provenance.errors %}
-                                <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-md-12">{{ form.meilleur_site|as_crispy_field }}</div>
                 </div>
+        
+                <!-- Année d'installation + Mode d'acquisition -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Année d'installation</label>
+                        {{ form.annee_installation }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mode d'acquisition</label>
+                        {{ form.acquisition_site }}
+                    </div>
+                </div>
+        
+                <!-- Autre mode d'acquisition -->
+                <div id="autre_acquisition_row" class="mt-4" {% if form.acquisition_site.value != 'autre' %}style="display:none;"{% endif %}>
+                    <label class="block text-sm font-medium text-gray-700">Autre mode d'acquisition</label>
+                    {{ form.autre_acquisition }}
+                </div>
+        
+                <!-- Déjà déguerpi -->
+                <div class="pt-6 border-t border-gray-200">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Avez-vous une fois été déguerpi ?</label>
+                    <div class="flex space-x-6">
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="deja_deguerpi" id="deguerpi_oui" value="True"
+                                   class="text-emerald-600 focus:ring-emerald-500"
+                                   {% if form.deja_deguerpi.value %}checked{% endif %}>
+                            <span>Oui</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="deja_deguerpi" id="deguerpi_non" value="False"
+                                   class="text-emerald-600 focus:ring-emerald-500"
+                                   {% if form.deja_deguerpi.value == False %}checked{% endif %}>
+                            <span>Non</span>
+                        </label>
+                    </div>
+        
+                    <div id="lieu_provenance_container" class="mt-4 {% if not form.deja_deguerpi.value %}hidden{% endif %}">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Si Oui, quel est votre lieu de provenance ?
+                        </label>
+                        {{ form.lieu_provenance }}
+                        {% if form.lieu_provenance.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.lieu_provenance.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+        
+                <!-- Meilleur site -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Quel serait le meilleur site pour vous ?</label>
+                    {{ form.meilleur_site }}
+                </div>
+        
             </div>
         </div>
+        
 
         <!-- Section 29-36: Situation juridique -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-gavel me-2"></i>29-36. Situation juridique</h5>
             </div>
-            <div class="section-card bg-gray-50 p-4 rounded-lg">
+        
+            <div class="bg-gray-50 p-6 space-y-6">
                 <!-- Menaces d'expulsion -->
-                <div class="row g-3">
-                    <div class="section-card bg-gray-50 p-4 rounded-lg">
-                        <label class="block text-sm font-medium text-gray-700 mb-2"> Avez vous une fois reçu des menaces d'expulsion sur le site que vous occupez actuellement ? </label>
-                        <div class="flex space-x-4">
-                            <div class="flex items-center">
-                                <input type="radio" name="menaces_expulsion" id="menaces_oui" 
-                                       value="True" class="radio-custom"
-                                       {% if form.menaces_expulsion.value %}checked{% endif %}>
-                                <label for="menaces_oui" class="text-gray-700 cursor-pointer">Oui</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" name="menaces_expulsion" id="menaces_non" 
-                                       value="False" class="radio-custom"
-                                       {% if form.menaces_expulsion.value == False %}checked{% endif %}>
-                                <label for="menaces_non" class="text-gray-700 cursor-pointer">Non</label>
-                            </div>
-                        </div>
-                        <div id="auteur_menaces_container" class="mt-3 {% if not form.menaces_expulsion.value %}hidden{% endif %}">
-                            <label for="{{ form.auteur_menaces.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
-                                Si oui de qui ?
-                            </label>
-                            {{ form.auteur_menaces }}
-                            {% if form.auteur_menaces.errors %}
-                            <div class="mt-1 text-sm text-red-600">
-                                {% for error in form.auteur_menaces.errors %}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Avez-vous une fois reçu des menaces d'expulsion sur le site que vous occupez actuellement ?
+                    </label>
+                    <div class="flex space-x-6">
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="menaces_expulsion" id="menaces_oui" value="True"
+                                   class="text-emerald-600 focus:ring-emerald-500"
+                                   {% if form.menaces_expulsion.value %}checked{% endif %}>
+                            <span>Oui</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="radio" name="menaces_expulsion" id="menaces_non" value="False"
+                                   class="text-emerald-600 focus:ring-emerald-500"
+                                   {% if form.menaces_expulsion.value == False %}checked{% endif %}>
+                            <span>Non</span>
+                        </label>
+                    </div>
+        
+                    <div id="auteur_menaces_container" class="mt-4 {% if not form.menaces_expulsion.value %}hidden{% endif %}">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Si oui, de qui ?
+                        </label>
+                        {{ form.auteur_menaces }}
+                        {% if form.auteur_menaces.errors %}
+                        <div class="mt-1 text-sm text-red-600">
+                            {% for error in form.auteur_menaces.errors %}
                                 <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
+                            {% endfor %}
                         </div>
+                        {% endif %}
                     </div>
-
-                    <div class="col-md-6">{{ form.nature_juridique|as_crispy_field }}</div>
-                    <div class="col-md-6" id="autre_nature_juridique_row" {% if form.nature_juridique.value != 'autre' %}style="display:none;"{% endif %}>
-                        {{ form.autre_nature_juridique|as_crispy_field }}
+                </div>
+        
+                <!-- Champs juridiques -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Nature juridique</label>
+                        {{ form.nature_juridique }}
                     </div>
-                    <div class="col-md-6">{{ form.superficie_atelier|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.statut_activite|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.activite_principale|as_crispy_field }}</div>
-                    <div class="col-md-6" id="autre_activite_principale_row" {% if form.activite_principale.value != 'autre' %}style="display:none;"{% endif %}>
-                        {{ form.autre_activite_principale|as_crispy_field }}
+                    <div id="autre_nature_juridique_row" {% if form.nature_juridique.value != 'autre' %}style="display:none;"{% endif %}>
+                        <label class="block text-sm font-medium text-gray-700">Autre nature juridique</label>
+                        {{ form.autre_nature_juridique }}
+                    </div>
+                </div>
+        
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Superficie de l'atelier (en m²)</label>
+                        {{ form.superficie_atelier }}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Statut de l'activité</label>
+                        {{ form.statut_activite }}
+                    </div>
+                </div>
+        
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Activité principale</label>
+                        {{ form.activite_principale }}
+                    </div>
+                    <div id="autre_activite_principale_row" {% if form.activite_principale.value != 'autre' %}style="display:none;"{% endif %}>
+                        <label class="block text-sm font-medium text-gray-700">Autre activité principale</label>
+                        {{ form.autre_activite_principale }}
                     </div>
                 </div>
             </div>
         </div>
+        
 
         <!-- Section 37-50: Ressources humaines et équipements -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-users-cog me-2"></i>37-50. Ressources humaines et équipements</h5>
             </div>
             <div class="section-card bg-gray-50 p-4 rounded-lg">
@@ -306,8 +480,8 @@
         </div>
 
         <!-- Section 51-60: Besoins et impacts -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-clipboard-list me-2"></i>51-60. Besoins et impacts</h5>
             </div>
             <div class="section-card bg-gray-50 p-4 rounded-lg">
@@ -439,8 +613,8 @@
         </div>
 
         <!-- Section 61-72: Gestion des déchets et relations -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
+        <div class="mb-6 border border-gray-200 rounded-lg shadow">
+            <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
                 <h5><i class="fas fa-trash-alt me-2"></i>61-72. Gestion des déchets et relations</h5>
             </div>
             <div class="section-card bg-gray-50 p-4 rounded-lg">
@@ -653,64 +827,125 @@
         </div>
 
             <!-- Section 76-82: Accessibilité et commentaires -->
-            <div class="card mb-4">
-                <div class="card-header bg-secondary text-white">
-                    <h5><i class="fas fa-map-marked-alt me-2"></i>76-82. Accessibilité et commentaires</h5>
+            <div class="mb-6 border border-gray-200 rounded-lg shadow">
+                <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold flex items-center gap-2">
+                  <i class="fas fa-map-marked-alt"></i>
+                  <h5>76-82. Accessibilité et commentaires</h5>
                 </div>
-                <div class="section-card bg-gray-50 p-4 rounded-lg">
-                    <div class="row g-3">
-                    
-                            <!-- difficultés pour accéder a votre lieu-->
-                            <div class="section-card bg-gray-50 p-4 rounded-lg">
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Avez-vous des difficultés pour accéder à votre lieu d'activité ?
-                                </label>
-                                <div class="flex space-x-4">
-                                    <div class="flex items-center">
-                                        <input type="radio" name="difficulte_acces" id="difficulte_oui" 
-                                               value="True" class="radio-custom"
-                                               {% if form.difficulte_acces.value == 'True' %}checked{% endif %}>
-                                        <label for="difficulte_oui" class="text-gray-700 cursor-pointer ml-1">Oui</label>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <input type="radio" name="difficulte_acces" id="difficulte_non" 
-                                               value="False" class="radio-custom"
-                                               {% if form.difficulte_acces.value == 'False' or not form.difficulte_acces.value %}checked{% endif %}>
-                                        <label for="difficulte_non" class="text-gray-700 cursor-pointer ml-1">Non</label>
-                                    </div>
-                                </div>
-                                {% if form.difficulte_acces.errors %}
-                                <div class="mt-1 text-sm text-red-600">
-                                    {% for error in form.difficulte_acces.errors %}
-                                        <p>{{ error }}</p>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                            </div>
-                            
-                        </div>
+              
+                <div class="bg-gray-50 p-6 space-y-6">
+              
+                  <!-- Difficultés d'accès -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                      Avez-vous des difficultés pour accéder à votre lieu d'activité ?
+                    </label>
+                    <div class="flex space-x-6">
+                      <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="difficulte_acces" id="difficulte_oui" value="True"
+                               class="text-emerald-600 focus:ring-emerald-500"
+                               {% if form.difficulte_acces.value == 'True' %}checked{% endif %}>
+                        <span>Oui</span>
+                      </label>
+                      <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="radio" name="difficulte_acces" id="difficulte_non" value="False"
+                               class="text-emerald-600 focus:ring-emerald-500"
+                               {% if form.difficulte_acces.value == 'False' or not form.difficulte_acces.value %}checked{% endif %}>
+                        <span>Non</span>
+                      </label>
                     </div>
+                    {% if form.difficulte_acces.errors %}
+                      <div class="mt-1 text-sm text-red-600">
+                        {% for error in form.difficulte_acces.errors %}
+                          <p>{{ error }}</p>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+              
+                  <!-- Champs d'information -->
+              
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label for="{{ form.lieu_origine.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ form.lieu_origine.label }}
+                      </label>
+                      {{ form.lieu_origine }}
+                      {% if form.lieu_origine.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.lieu_origine.errors|join:", " }}</p>
+                      {% endif %}
+                    </div>
+              
+                    <div>
+                      <label for="{{ form.temps_acces.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ form.temps_acces.label }}
+                      </label>
+                      {{ form.temps_acces }}
+                      {% if form.temps_acces.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.temps_acces.errors|join:", " }}</p>
+                      {% endif %}
+                    </div>
+              
+                    <div>
+                      <label for="{{ form.lieu_residence_clientele.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ form.lieu_residence_clientele.label }}
+                      </label>
+                      {{ form.lieu_residence_clientele }}
+                      {% if form.lieu_residence_clientele.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.lieu_residence_clientele.errors|join:", " }}</p>
+                      {% endif %}
+                    </div>
+              
+                    <div class="md:col-span-2">
+                      <label for="{{ form.commentaires_supplementaires.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ form.commentaires_supplementaires.label }}
+                      </label>
+                      {{ form.commentaires_supplementaires }}
+                      {% if form.commentaires_supplementaires.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.commentaires_supplementaires.errors|join:", " }}</p>
+                      {% endif %}
+                    </div>
+              
+                    <div class="md:col-span-2">
+                      <label for="{{ form.commentaire_enqueteur.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ form.commentaire_enqueteur.label }}
+                      </label>
+                      {{ form.commentaire_enqueteur }}
+                      {% if form.commentaire_enqueteur.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.commentaire_enqueteur.errors|join:", " }}</p>
+                      {% endif %}
+                    </div>
+              
+                    <div class="md:col-span-2">
+                      <label for="{{ form.photo_atelier.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ form.photo_atelier.label }}
+                      </label>
+                      {{ form.photo_atelier }}
+                      {% if form.photo_atelier.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.photo_atelier.errors|join:", " }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+              
                 </div>
+              </div>
+              
 
-                    <div class="col-md-6">{{ form.lieu_origine|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.temps_acces|as_crispy_field }}</div>
-                    <div class="col-md-6">{{ form.lieu_residence_clientele|as_crispy_field }}</div>
-                    <div class="col-md-12">{{ form.commentaires_supplementaires|as_crispy_field }}</div>
-                    <div class="col-md-12">{{ form.commentaire_enqueteur|as_crispy_field }}</div>
-                    <div class="col-md-12">{{ form.photo_atelier|as_crispy_field }}</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- boutton enregistrer et annueler -->
-        <div class="d-flex justify-content-between mt-4 mb-5">
-            <a href="{% url 'enquete:liste_enquetes' %}" class="btn btn-lg btn-secondary">
-                <i class="fas fa-arrow-left me-2"></i> Annuler
-            </a>
-            <button type="submit" class="btn btn-lg btn-primary boutt">
-                <i class="fas fa-save me-2"></i> Enregistrer
-            </button>
-        </div>
+    <!-- Boutons Annuler et Enregistrer -->
+    <div class="flex justify-between mt-6 mb-10">
+        <a href="{% url 'enquete:liste_enquetes' %}"
+        class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 bg-gray-100 hover:bg-gray-200 transition">
+        <i class="fas fa-arrow-left me-2"></i>
+        <span class="ml-2">Annuler</span>
+        </a>
+    
+        <button type="submit"
+                class="inline-flex items-center px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1 transition">
+        <i class="fas fa-save me-2"></i>
+        <span class="ml-2">Enregistrer</span>
+        </button>
+    </div>
+  
     </form>
 </div>
 {% endblock %}
