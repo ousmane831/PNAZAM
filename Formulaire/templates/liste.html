@@ -56,9 +56,9 @@
                     <input type="text" id="search" name="search" class="form-control" placeholder="Nom, téléphone..." value="{{ request.GET.search }}">
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary me-2">
+                    <!-- <button type="submit" class="btn btn-primary me-2">
                         <i class="fas fa-filter me-1"></i>Filtrer
-                    </button>
+                    </button> -->
                     <a href="{% url 'enquete:liste_enquetes' %}" class="btn btn-outline-secondary">
                         <i class="fas fa-undo me-1"></i>
                     </a>
@@ -162,4 +162,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[method="get"]');
+        if (!form) return;
+
+        const selects = form.querySelectorAll('select');
+        const searchInput = form.querySelector('input[name="search"]');
+
+        // Soumission automatique quand un select change
+        selects.forEach(function (select) {
+            select.addEventListener('change', function () {
+                form.submit();
+            });
+        });
+
+        // Soumission automatique quand on tape dans le champ de recherche
+        let timeout = null;
+        searchInput.addEventListener('input', function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                form.submit();
+            }, 800); // Attendre 800ms
+        });
+    });
+</script>
+
+
+
 {% endblock %}
