@@ -27,7 +27,7 @@ class EnqueteForm(forms.ModelForm):
             'telephone_chef': forms.TextInput(attrs={'class': 'form-control'}),
             
             # Section 10-13: Démographie
-            'sexe': forms.RadioSelect(choices=Enquete.SEXE_CHOICES),
+            'sexe': forms.Select(attrs={'class': 'form-control'}),
             'date_naissance': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'cni': forms.TextInput(attrs={'class': 'form-control'}),
             'niveau_etude': forms.Select(attrs={'class': 'form-control'}),
@@ -49,14 +49,14 @@ class EnqueteForm(forms.ModelForm):
             'acquisition_site': forms.Select(attrs={'class': 'form-control'}),
             'autre_acquisition': forms.TextInput(attrs={'class': 'form-control'}),
             'lieu_provenance': forms.TextInput(attrs={'class': 'form-control'}),
-            'meilleur_site': forms.RadioSelect(choices=Enquete.MEILLEUR_SITE_CHOICES),
+            'meilleur_site': forms.Select(attrs={'class': 'form-control'}),
             
             # Section 29-36: Situation juridique
             'auteur_menaces': forms.TextInput(attrs={'class': 'form-control'}),
             'nature_juridique': forms.Select(attrs={'class': 'form-control'}),
             'autre_nature_juridique': forms.TextInput(attrs={'class': 'form-control'}),
             'superficie_atelier': forms.NumberInput(attrs={'class': 'form-control'}),
-            'statut_activite': forms.RadioSelect(choices=Enquete.STATUT_ACTIVITE_CHOICES),
+            'statut_activite': forms.Select(attrs={'class': 'form-control'}),
             'activite_principale': forms.Select(attrs={'class': 'form-control'}),
             'autre_activite_principale': forms.TextInput(attrs={'class': 'form-control'}),
             
@@ -81,6 +81,7 @@ class EnqueteForm(forms.ModelForm):
             'inconvenients_negatifs': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             
             # Section 61-72: Gestion des déchets
+            'gestion_dechets': forms.Select(attrs={'class': 'form-control'}),
             'autre_gestion_dechets': forms.TextInput(attrs={'class': 'form-control'}),
             'autre_autorite': forms.TextInput(attrs={'class': 'form-control'}),
             'avantages_commune': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
@@ -92,6 +93,7 @@ class EnqueteForm(forms.ModelForm):
             
             # Section 76-82: Accessibilité
             'lieu_origine': forms.TextInput(attrs={'class': 'form-control'}),
+            'temps_acces': forms.Select(attrs={'class': 'form-control'}),
             'lieu_residence_clientele': forms.TextInput(attrs={'class': 'form-control'}),
             'commentaires_supplementaires': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'commentaire_enqueteur': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
