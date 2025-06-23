@@ -187,14 +187,14 @@
         
                 <!-- Profession -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Profession</label>
+                    <label class="block text-sm font-medium text-gray-700">Quelle est votre profession?</label>
                     {{ form.profession }}
                 </div>
         
                 <!-- Type d'activité + Autre -->
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="w-full md:w-1/2">
-                        <label class="block text-sm font-medium text-gray-700">Type d'activité</label>
+                        <label class="block text-sm font-medium text-gray-700">.Quel type d'activité exercez-vous dans l'atelier ?</label>
                         {{ form.type_activite }}
                     </div>
                     <div class="w-full md:w-1/2" id="autre_activite_row" {% if form.type_activite.value != 'autre' %}style="display: none;"{% endif %}>
@@ -206,11 +206,11 @@
                 <!-- Revenus -->
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="w-full md:w-1/2">
-                        <label class="block text-sm font-medium text-gray-700">Revenu journalier</label>
+                        <label class="block text-sm font-medium text-gray-700">Quel est le revenu journalier de cette activité?</label>
                         {{ form.revenu_journalier }}
                     </div>
                     <div class="w-full md:w-1/2">
-                        <label class="block text-sm font-medium text-gray-700">Revenu mensuel</label>
+                        <label class="block text-sm font-medium text-gray-700">Quel est le revenu mensuel de cette activité?</label>
                         {{ form.revenu_mensuel }}
                     </div>
                 </div>
@@ -233,7 +233,7 @@
                         {{ form.statut_occupation }}
                     </div>
                     <div id="statut_non_proprietaire_section" {% if form.statut_occupation.value != 'exploitant_non_proprietaire' %}style="display:none;"{% endif %}>
-                        <label class="block text-sm font-medium text-gray-700">Statut non propriétaire</label>
+                        <label class="block text-sm font-medium text-gray-700">Statut d'occupation de l'exploitant est non propriétaire</label>
                         {{ form.statut_non_proprietaire }}
         
                         <div id="autre_statut_non_proprietaire_row" class="mt-3" {% if form.statut_non_proprietaire.value != 'autre' %}style="display:none;"{% endif %}>
@@ -242,7 +242,7 @@
                         </div>
         
                         <div id="loyer_mensuel_row" class="mt-3" {% if form.statut_non_proprietaire.value != 'locataire' %}style="display:none;"{% endif %}>
-                            <label class="block text-sm font-medium text-gray-700">Loyer mensuel</label>
+                            <label class="block text-sm font-medium text-gray-700">Si locataire combien payez vous mensuellement ?</label>
                             {{ form.loyer_mensuel }}
                         </div>
                     </div>
@@ -251,18 +251,18 @@
                 <!-- Année d'installation + Mode d'acquisition -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Année d'installation</label>
+                        <label class="block text-sm font-medium text-gray-700"> Depuis quelle année êtes-vous installé sur le site ?</label>
                         {{ form.annee_installation }}
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Mode d'acquisition</label>
+                        <label class="block text-sm font-medium text-gray-700"> Comment avez-vous acquis le site ?</label>
                         {{ form.acquisition_site }}
                     </div>
                 </div>
         
                 <!-- Autre mode d'acquisition -->
                 <div id="autre_acquisition_row" class="mt-4" {% if form.acquisition_site.value != 'autre' %}style="display:none;"{% endif %}>
-                    <label class="block text-sm font-medium text-gray-700">Autre mode d'acquisition</label>
+                    <label class="block text-sm font-medium text-gray-700"> Lequel Autre ?</label>
                     {{ form.autre_acquisition }}
                 </div>
         
@@ -354,7 +354,7 @@
                 <!-- Champs juridiques -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Nature juridique</label>
+                        <label class="block text-sm font-medium text-gray-700">Nature juridique du lieu occupé</label>
                         {{ form.nature_juridique }}
                     </div>
                     <div id="autre_nature_juridique_row" {% if form.nature_juridique.value != 'autre' %}style="display:none;"{% endif %}>
@@ -369,14 +369,14 @@
                         {{ form.superficie_atelier }}
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Statut de l'activité</label>
+                        <label class="block text-sm font-medium text-gray-700">Statut de votre activité</label>
                         {{ form.statut_activite }}
                     </div>
                 </div>
         
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Activité principale</label>
+                        <label class="block text-sm font-medium text-gray-700">Votre activité principale</label>
                         {{ form.activite_principale }}
                     </div>
                     <div id="autre_activite_principale_row" {% if form.activite_principale.value != 'autre' %}style="display:none;"{% endif %}>
@@ -868,7 +868,7 @@
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label for="{{ form.lieu_origine.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ form.lieu_origine.label }}
+                        Que est votre lieu d'origine ?
                       </label>
                       {{ form.lieu_origine }}
                       {% if form.lieu_origine.errors %}
@@ -888,7 +888,7 @@
               
                     <div>
                       <label for="{{ form.lieu_residence_clientele.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ form.lieu_residence_clientele.label }}
+                        Lieu de résidence de votre clientèle habituel ?
                       </label>
                       {{ form.lieu_residence_clientele }}
                       {% if form.lieu_residence_clientele.errors %}
@@ -898,7 +898,7 @@
               
                     <div class="md:col-span-2">
                       <label for="{{ form.commentaires_supplementaires.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ form.commentaires_supplementaires.label }}
+                        Avez-vous des questions ou des commentaires supplémentaires?
                       </label>
                       {{ form.commentaires_supplementaires }}
                       {% if form.commentaires_supplementaires.errors %}
@@ -908,7 +908,7 @@
               
                     <div class="md:col-span-2">
                       <label for="{{ form.commentaire_enqueteur.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
-                        {{ form.commentaire_enqueteur.label }}
+                        Commentaire de l'enquêteur
                       </label>
                       {{ form.commentaire_enqueteur }}
                       {% if form.commentaire_enqueteur.errors %}
