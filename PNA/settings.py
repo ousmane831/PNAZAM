@@ -136,7 +136,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = 'login'                # Redirection vers la page de connexion si non connecté
-LOGIN_REDIRECT_URL = 'liste_enquetes'      # Redirection après une connexion réussie
+LOGIN_REDIRECT_URL = 'enquete:liste_enquetes'     # Redirection après une connexion réussie
 LOGOUT_REDIRECT_URL = 'login'     # Redirection après déconnexion
 
 

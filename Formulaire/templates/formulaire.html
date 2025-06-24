@@ -144,7 +144,7 @@
         <!-- Section 10-13: Démographie -->
         <div class="mb-6 border border-gray-200 rounded-lg shadow">
             <div class="bg-emerald-600 px-4 py-2 rounded-t-lg text-white font-semibold">
-                <h5><i class="fas fa-user-tag me-2"></i>10-13. Informations démographiques</h5>
+                <h5><i class="fas fa-user-tag me-2"></i>10-13. Informations </h5>
             </div>
             <div class="bg-gray-50 p-6 space-y-6">
                 
@@ -564,24 +564,26 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Quels sont les impacts de votre activité sur l'environnement immédiat?
                         </label>
-
+                    
                         <div class="flex space-x-4">
                             <div class="flex items-center">
                                 <input type="radio" name="impact_environnement" id="impact_oui" 
                                     value="positifs" class="radio-custom"
-                                    {% if form.impact_environnement.value == 'positifs'  %}checked{% endif %}>
+                                    {% if form.impact_environnement.value == 'positifs' %}checked{% endif %}>
                                 <label for="impact_oui" class="ml-1 text-gray-700 cursor-pointer">Positifs</label>
                             </div>
                             <div class="flex items-center">
                                 <input type="radio" name="impact_environnement" id="impact_non" 
                                     value="negatifs" class="radio-custom"
-                                    {% if form.impact_environnement.value == 'negatifs' or not form.impact_environnement.value %}checked{% endif %}>
-                                <label for="impact_non" class="ml-1 text-gray-700 cursor-pointer">Negatifs</label>
+                                    {% if form.impact_environnement.value == 'negatifs' %}checked{% endif %}>
+                                <label for="impact_non" class="ml-1 text-gray-700 cursor-pointer">Négatifs</label>
                             </div>
                         </div>
+                    
+                        <!-- Positifs -->
                         <div id="impact_container" class="mt-3 {% if form.impact_environnement.value != 'positifs' %}hidden{% endif %}">
                             <label for="{{ form.avantages_positifs.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                Si Positifs , quels avantages, quels bénéfices?
+                                Si Positifs, quels avantages, quels bénéfices?
                             </label>
                             {{ form.avantages_positifs }}
                             {% if form.avantages_positifs.errors %}
@@ -592,11 +594,11 @@
                                 </div>
                             {% endif %}
                         </div>
-                
-                        <!-- Si negatifs -->
+                    
+                        <!-- Négatifs -->
                         <div id="impact_negatif_container" class="mt-3 {% if form.impact_environnement.value != 'negatifs' %}hidden{% endif %}">
                             <label for="{{ form.inconvenients_negatifs.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                Si Négatifs,quels inconvénients, quels problèmes?
+                                Si Négatifs, quels inconvénients, quels problèmes?
                             </label>
                             {{ form.inconvenients_negatifs }}
                             {% if form.inconvenients_negatifs.errors %}
@@ -608,6 +610,7 @@
                             {% endif %}
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -754,68 +757,69 @@
                     <div class="col-md-12">{{ form.suggestions|as_crispy_field }}</div>
                     
                         <!-- prêt à déménager -->
-                    <div class="section-card bg-gray-50 p-4 rounded-lg">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Seriez-vous prêt à déménager si un espace adapté vous était proposé ?
-                        </label>
-
-                        <div class="flex space-x-4">
-                            <div class="flex items-center">
-                                <input type="radio" name="pret_demenager" id="pret_oui" 
-                                    value="True" class="radio-custom"
-                                    {% if form.pret_demenager.value == 'True' %}checked{% endif %}>
-                                <label for="pret_oui" class="ml-1 text-gray-700 cursor-pointer">Oui</label>
-                            </div>
-                            <div class="flex items-center">
-                                <input type="radio" name="pret_demenager" id="pret_non" 
-                                    value="False" class="radio-custom"
-                                    {% if form.pret_demenager.value == 'False' or not form.pret_demenager.value %}checked{% endif %}>
-                                <label for="pret_non" class="ml-1 text-gray-700 cursor-pointer">Non</label>
-                            </div>
-                        </div>
-                        <div id="pret_container" class="mt-3 {% if form.pret_demenager.value != 'True' %}hidden{% endif %}">
+                        <div class="section-card bg-gray-50 p-4 rounded-lg">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Si oui, êtes-vous prêt à exercer votre métier hors de Dakar ?
+                                Seriez-vous prêt à déménager si un espace adapté vous était proposé ?
                             </label>
+                        
                             <div class="flex space-x-4">
-                                <!-- Oui -->
                                 <div class="flex items-center">
-                                    <input type="radio" name="pret_exercer_hors_dakar" id="hors_oui" value="True" class="radio-custom"
-                                            {% if form.pret_exercer_hors_dakar.value == 'True' %}checked{% endif %}>
-                                    <label for="hors_oui" class="ml-1 text-gray-700 cursor-pointer">Oui</label>
+                                    <input type="radio" name="pret_demenager" id="pret_oui" 
+                                        value="True" class="radio-custom"
+                                        {% if form.pret_demenager.value == 'True' %}checked{% endif %}>
+                                    <label for="pret_oui" class="ml-1 text-gray-700 cursor-pointer">Oui</label>
                                 </div>
-                                <!-- Non -->
                                 <div class="flex items-center">
-                                    <input type="radio" name="pret_exercer_hors_dakar" id="hors_non" value="False" class="radio-custom"
-                                            {% if form.pret_exercer_hors_dakar.value == 'False' %}checked{% endif %}>
-                                    <label for="hors_non" class="ml-1 text-gray-700 cursor-pointer">Non</label>
+                                    <input type="radio" name="pret_demenager" id="pret_non" 
+                                        value="False" class="radio-custom"
+                                        {% if form.pret_demenager.value == 'False' %}checked{% endif %}>
+                                    <label for="pret_non" class="ml-1 text-gray-700 cursor-pointer">Non</label>
                                 </div>
                             </div>
                         
-                            {% if form.pret_exercer_hors_dakar.errors %}
-                                <div class="mt-1 text-sm text-red-600">
-                                    {% for error in form.pret_exercer_hors_dakar.errors %}
-                                        <p>{{ error }}</p>
-                                    {% endfor %}
+                            <!-- Si OUI -->
+                            <div id="pret_container" class="mt-3 {% if form.pret_demenager.value != 'True' %}hidden{% endif %}">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Si oui, êtes-vous prêt à exercer votre métier hors de Dakar ?
+                                </label>
+                                <div class="flex space-x-4">
+                                    <div class="flex items-center">
+                                        <input type="radio" name="pret_exercer_hors_dakar" id="hors_oui" value="True" class="radio-custom"
+                                            {% if form.pret_exercer_hors_dakar.value == 'True' %}checked{% endif %}>
+                                        <label for="hors_oui" class="ml-1 text-gray-700 cursor-pointer">Oui</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" name="pret_exercer_hors_dakar" id="hors_non" value="False" class="radio-custom"
+                                            {% if form.pret_exercer_hors_dakar.value == 'False' %}checked{% endif %}>
+                                        <label for="hors_non" class="ml-1 text-gray-700 cursor-pointer">Non</label>
+                                    </div>
                                 </div>
-                            {% endif %}
+                        
+                                {% if form.pret_exercer_hors_dakar.errors %}
+                                    <div class="mt-1 text-sm text-red-600">
+                                        {% for error in form.pret_exercer_hors_dakar.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        
+                            <!-- Si NON -->
+                            <div id="pret_non_container" class="mt-3 {% if form.pret_demenager.value != 'False' %}hidden{% endif %}">
+                                <label for="{{ form.raison_refus_dakar.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Si non, pourquoi ?
+                                </label>
+                                {{ form.raison_refus_dakar }}
+                                {% if form.raison_refus_dakar.errors %}
+                                    <div class="mt-1 text-sm text-red-600">
+                                        {% for error in form.raison_refus_dakar.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
-                
-                        <!-- Si NON -->
-                        <div id="pret_non_container" class="mt-3 {% if form.pret_demenager.value != 'False' %}hidden{% endif %}">
-                            <label for="{{ form.raison_refus_dakar.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                Si non, pourquoi ?
-                            </label>
-                            {{ form.raison_refus_dakar }}
-                            {% if form.raison_refus_dakar.errors %}
-                                <div class="mt-1 text-sm text-red-600">
-                                    {% for error in form.raison_refus_dakar.errors %}
-                                        <p>{{ error }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
+                        
 
 
                     <div class="col-md-12" id="raison_refus_dakar_row" {% if form.pret_exercer_hors_dakar.value %}style="display:none;"{% endif %}>
